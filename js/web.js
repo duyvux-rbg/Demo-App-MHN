@@ -5,6 +5,9 @@ let currentBannerIndex = 0;
 let bannerInterval = null;
 let selectedProduct = null;
 let isLoggedIn = false;
+let orderMode = 'delivery'; // delivery, takeaway, dinein, points
+let selectedStore = null;
+let tableNumber = null;
 
 // ==================== INITIALIZATION ====================
 document.addEventListener('DOMContentLoaded', () => {
@@ -928,8 +931,247 @@ function initEventListeners() {
         tab.addEventListener('click', () => {
             heroTabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
+
+            const type = tab.dataset.type;
+            handleHeroTabClick(type);
         });
     });
+}
+
+// ==================== HERO TAB ACTIONS ====================
+function handleHeroTabClick(type) {
+    orderMode = type;
+
+    switch(type) {
+        case 'delivery':
+            handleDeliveryMode();
+            break;
+        case 'takeaway':
+            handleTakeawayMode();
+            break;
+        case 'dinein':
+            handleDineInMode();
+            break;
+        case 'points':
+            handlePointsMode();
+            break;
+    }
+}
+
+// 1. GIAO HÀNG MODE
+function handleDeliveryMode() {
+    // Chuyển sang trang đặt hàng với mode giao hàng
+    showToast('🚚 Chế độ Giao hàng - Chọn món và nhập địa chỉ giao hàng');
+    navigateToPage('order');
+
+    // Set delivery mode flag
+    localStorage.setItem('orderMode', 'delivery');
+}
+
+// 2. MANG ĐI MODE
+function handleTakeawayMode() {
+    // Hiển thị modal chọn cửa hàng
+    showStoreSelectionModal();
+}
+
+function showStoreSelectionModal() {
+    const modal = document.getElementById('productModal');
+    const modalBody = document.getElementById('modalBody');
+
+    modalBody.innerHTML = `
+        <div class="store-selection">
+            <h2>Chọn cửa hàng mang đi</h2>
+            <p style="color: var(--gray-text); margin-bottom: 1.5rem;">Vui lòng chọn cửa hàng bạn muốn đến lấy món</p>
+
+            <div class="store-list-modal">
+                ${stores.map(store => `
+                    <div class="store-option" onclick="selectStoreForTakeaway('${store.id}')">
+                        <div class="store-option-info">
+                            <h4>${store.name}</h4>
+                            <p>📍 ${store.address}</p>
+                            <p>⏰ ${store.hours}</p>
+                            <p>📏 ${store.distance}</p>
+                        </div>
+                        <span class="status ${store.status}">${store.status === 'open' ? 'Đang mở cửa' : 'Đã đóng cửa'}</span>
+                    </div>
+                `).join('')}
+            </div>
+
+            <button class="btn-cancel" onclick="closeProductModal()" style="width: 100%; margin-top: 1.5rem;">Đóng</button>
+        </div>
+    `;
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function selectStoreForTakeaway(storeId) {
+    selectedStore = stores.find(s => s.id === storeId);
+
+    if (selectedStore.status === 'closed') {
+        showToast('⚠️ Cửa hàng đã đóng cửa');
+        return;
+    }
+
+    closeProductModal();
+    showToast(`✅ Đã chọn ${selectedStore.name} - Bạn có thể đặt món ngay!`);
+
+    // Set takeaway mode
+    localStorage.setItem('orderMode', 'takeaway');
+    localStorage.setItem('selectedStore', JSON.stringify(selectedStore));
+
+    // Chuyển sang trang đặt hàng
+    navigateToPage('order');
+}
+
+// 3. TẠI CHỖ MODE (QR Scanner)
+function handleDineInMode() {
+    // Hiển thị modal quét QR
+    showQRScannerModal();
+}
+
+function showQRScannerModal() {
+    const modal = document.getElementById('productModal');
+    const modalBody = document.getElementById('modalBody');
+
+    modalBody.innerHTML = `
+        <div class="qr-scanner-modal">
+            <h2>Quét mã QR tại bàn</h2>
+            <p style="color: var(--gray-text); margin-bottom: 1.5rem;">Vui lòng quét mã QR trên bàn để đặt món</p>
+
+            <div class="qr-scanner-placeholder">
+                <div class="qr-scan-icon">📷</div>
+                <p>Đặt camera vào mã QR</p>
+            </div>
+
+            <div class="or-divider">
+                <span>Hoặc</span>
+            </div>
+
+            <div class="manual-table-input">
+                <label>Nhập mã bàn thủ công:</label>
+                <input type="text" id="manualTableNumber" placeholder="Ví dụ: T1-B05"
+                       style="width: 100%; padding: 12px; border: 2px solid var(--beige); border-radius: 8px; margin-top: 8px;">
+                <button class="btn-primary" onclick="confirmTableNumber()"
+                        style="width: 100%; margin-top: 12px;">Xác nhận</button>
+            </div>
+
+            <button class="btn-cancel" onclick="closeProductModal()" style="width: 100%; margin-top: 1.5rem;">Đóng</button>
+        </div>
+    `;
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function confirmTableNumber() {
+    const input = document.getElementById('manualTableNumber');
+    const tableCode = input.value.trim().toUpperCase();
+
+    if (!tableCode) {
+        showToast('⚠️ Vui lòng nhập mã bàn');
+        return;
+    }
+
+    // Parse table code (format: T1-B05 = Tầng 1 - Bàn 05)
+    const match = tableCode.match(/T(\d+)-B(\d+)/);
+
+    if (!match) {
+        showToast('⚠️ Mã bàn không hợp lệ (Định dạng: T1-B05)');
+        return;
+    }
+
+    const floor = match[1];
+    const table = match[2];
+
+    tableNumber = {
+        code: tableCode,
+        floor: floor,
+        table: table
+    };
+
+    // Save to localStorage
+    localStorage.setItem('orderMode', 'dinein');
+    localStorage.setItem('tableNumber', JSON.stringify(tableNumber));
+
+    closeProductModal();
+
+    // Hiển thị thông tin bàn
+    showTableInfo();
+}
+
+function showTableInfo() {
+    if (!tableNumber) return;
+
+    const modal = document.getElementById('productModal');
+    const modalBody = document.getElementById('modalBody');
+
+    // Get WiFi info from selected store (giả sử tầng 1 là cửa hàng Nhân Chính)
+    const wifiInfo = {
+        ssid: 'MotHaNoi_WiFi',
+        password: 'hanoi2024'
+    };
+
+    modalBody.innerHTML = `
+        <div class="table-info-modal">
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <div style="font-size: 48px; margin-bottom: 0.5rem;">✅</div>
+                <h2 style="color: var(--green-open);">Kết nối thành công!</h2>
+            </div>
+
+            <div class="table-info-card">
+                <div class="info-row">
+                    <span class="info-label">🪑 Số bàn:</span>
+                    <span class="info-value">${tableNumber.table}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">🏢 Tầng:</span>
+                    <span class="info-value">${tableNumber.floor}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">📶 WiFi:</span>
+                    <span class="info-value">${wifiInfo.ssid}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">🔑 Mật khẩu:</span>
+                    <span class="info-value" style="font-family: monospace; background: var(--cream-white); padding: 4px 8px; border-radius: 4px;">${wifiInfo.password}</span>
+                </div>
+            </div>
+
+            <p style="text-align: center; color: var(--gray-text); margin: 1.5rem 0;">
+                Bạn có thể bắt đầu đặt món ngay bây giờ!
+            </p>
+
+            <button class="btn-primary" onclick="startDineInOrder()" style="width: 100%;">
+                Bắt đầu đặt món
+            </button>
+
+            <button class="btn-secondary" onclick="closeProductModal()" style="width: 100%; margin-top: 0.5rem;">
+                Đóng
+            </button>
+        </div>
+    `;
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function startDineInOrder() {
+    closeProductModal();
+    showToast(`🪑 Bàn ${tableNumber.table} - Tầng ${tableNumber.floor} - Bắt đầu đặt món!`);
+    navigateToPage('order');
+}
+
+// 4. TÍCH ĐIỂM MODE
+function handlePointsMode() {
+    if (!isLoggedIn) {
+        showToast('⚠️ Vui lòng đăng nhập để xem tích điểm');
+        navigateToPage('login');
+        return;
+    }
+
+    showToast('⭐ Chuyển đến trang tích điểm và ưu đãi');
+    navigateToPage('rewards');
 }
 
 // ==================== AUTH ====================

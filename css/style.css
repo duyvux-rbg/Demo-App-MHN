@@ -2080,6 +2080,130 @@ section {
     }
 }
 
+/* ==================== HERO TAB MODALS ==================== */
+/* Store Selection Modal */
+.store-selection h2 {
+    font-size: var(--font-size-h2);
+    color: var(--dark-brown);
+    margin-bottom: var(--spacing-sm);
+}
+
+.store-list-modal {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.store-option {
+    padding: var(--spacing-md);
+    border: 2px solid var(--beige);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.store-option:hover {
+    border-color: var(--primary-orange);
+    background-color: var(--cream-white);
+}
+
+.store-option-info h4 {
+    color: var(--dark-brown);
+    margin-bottom: var(--spacing-xs);
+}
+
+.store-option-info p {
+    font-size: var(--font-size-small);
+    color: var(--gray-text);
+    margin-bottom: 4px;
+}
+
+/* QR Scanner Modal */
+.qr-scanner-modal h2,
+.table-info-modal h2 {
+    font-size: var(--font-size-h2);
+    color: var(--dark-brown);
+    margin-bottom: var(--spacing-sm);
+}
+
+.qr-scanner-placeholder {
+    background-color: var(--cream-white);
+    border: 3px dashed var(--beige);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-xl);
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.qr-scan-icon {
+    font-size: 64px;
+    margin-bottom: var(--spacing-md);
+}
+
+.or-divider {
+    text-align: center;
+    position: relative;
+    margin: var(--spacing-lg) 0;
+}
+
+.or-divider span {
+    background-color: var(--white);
+    padding: 0 var(--spacing-md);
+    color: var(--gray-text);
+    position: relative;
+    z-index: 1;
+}
+
+.or-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: var(--beige);
+}
+
+.manual-table-input label {
+    font-weight: 600;
+    color: var(--dark-brown);
+}
+
+/* Table Info Modal */
+.table-info-card {
+    background-color: var(--cream-white);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-lg);
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid rgba(139, 90, 60, 0.1);
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: 600;
+    color: var(--dark-brown);
+}
+
+.info-value {
+    color: var(--black);
+    font-weight: 500;
+}
+
 /* ==================== TOAST ==================== */
 .toast {
     position: fixed;
