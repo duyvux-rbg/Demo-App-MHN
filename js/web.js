@@ -680,11 +680,29 @@ function loadStoresPage() {
     storeList.innerHTML = stores.map(store => `
         <div class="store-item">
             <h3>${store.name}</h3>
+            <p style="color: var(--gray-text); margin-bottom: 1rem;">${store.description}</p>
+
             <p>📍 ${store.address}</p>
             <p>📞 ${store.phone}</p>
             <p>⏰ ${store.hours}</p>
             <span class="status ${store.status}">${store.status === 'open' ? 'Đang mở cửa' : 'Đã đóng cửa'}</span>
-            <p>📏 Cách bạn ${store.distance}</p>
+
+            ${store.features ? `
+                <div style="margin: 1rem 0; padding: 1rem; background: var(--cream-white); border-radius: 8px;">
+                    <strong style="color: var(--dark-brown);">✨ Đặc biệt:</strong><br>
+                    ${store.features.map(f => `<span style="display: block; margin-top: 0.5rem;">${f}</span>`).join('')}
+                </div>
+            ` : ''}
+
+            ${store.social ? `
+                <div style="margin: 1rem 0;">
+                    <strong style="color: var(--dark-brown);">Theo dõi chúng mình:</strong><br>
+                    <a href="https://www.instagram.com/${store.social.instagram}" target="_blank" style="color: var(--primary-orange); margin-right: 1rem;">📷 Instagram</a>
+                    <a href="https://www.tiktok.com/${store.social.tiktok}" target="_blank" style="color: var(--primary-orange); margin-right: 1rem;">🎵 TikTok</a>
+                    <a href="https://www.tiktok.com/${store.social.tiktokDaily}" target="_blank" style="color: var(--primary-orange);">📱 TikTok Daily</a>
+                </div>
+            ` : ''}
+
             <button class="btn-direction" onclick="getDirection('${store.lat}', '${store.lng}')">Chỉ đường</button>
         </div>
     `).join('');

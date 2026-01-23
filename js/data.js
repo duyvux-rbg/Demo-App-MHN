@@ -344,45 +344,30 @@ const promoCards = [
 const stores = [
     {
         id: 'st001',
-        name: 'Một Hà Nội - Nhân Chính',
-        nameEn: 'Mot Ha Noi - Nhan Chinh',
-        address: 'Trường THPT Nhân Chính - Hoàng Đạo Thúy, Thanh Xuân, Hà Nội',
-        addressEn: 'Nhan Chinh High School - Hoang Dao Thuy, Thanh Xuan, Hanoi',
-        phone: '024 1234 5678',
-        hours: '7:00 - 22:00',
+        name: 'Một Hà Nội Coffee and Tea',
+        nameEn: 'Mot Ha Noi Coffee and Tea',
+        address: '104 Mai Anh Tuấn, Đống Đa, Hà Nội (Hồ Hoàng Cầu)',
+        addressEn: '104 Mai Anh Tuan, Dong Da, Hanoi (Hoang Cau Lake)',
+        phone: '096.9988.562',
+        hours: '8:00 - 3:00 (sáng)',
         status: 'open',
-        distance: '1.2km',
-        lat: 20.9947,
-        lng: 105.8038,
-        image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600'
-    },
-    {
-        id: 'st002',
-        name: 'Một Hà Nội - Hồ Gươm',
-        nameEn: 'Mot Ha Noi - Hoan Kiem',
-        address: '52 Lý Thái Tổ, Hoàn Kiếm, Hà Nội',
-        addressEn: '52 Ly Thai To, Hoan Kiem, Hanoi',
-        phone: '024 2345 6789',
-        hours: '6:30 - 23:00',
-        status: 'open',
-        distance: '3.5km',
-        lat: 21.0285,
-        lng: 105.8542,
-        image: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600'
-    },
-    {
-        id: 'st003',
-        name: 'Một Hà Nội - Cầu Giấy',
-        nameEn: 'Mot Ha Noi - Cau Giay',
-        address: '234 Trần Duy Hưng, Cầu Giấy, Hà Nội',
-        addressEn: '234 Tran Duy Hung, Cau Giay, Hanoi',
-        phone: '024 3456 7890',
-        hours: '7:00 - 22:30',
-        status: 'closed',
-        distance: '2.8km',
-        lat: 21.0136,
-        lng: 105.7936,
-        image: 'https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=600'
+        distance: '',
+        description: 'Quán cà phé học bài, làm việc & trò chuyện nhẹ nhàng, mở đêm ở Đống Đa',
+        descriptionEn: 'Cozy coffee shop for studying, working & chatting, open late in Dong Da',
+        features: [
+            '🎤 Open Mic hàng tuần',
+            '🔮 Xem Tarot miễn phí hàng tuần',
+            '📚 Không gian học bài, làm việc',
+            '🌙 Mở cửa đến 3h sáng'
+        ],
+        social: {
+            instagram: '@mothanoi.coffeeandtea',
+            tiktok: '@mothanoi.coffeeandtea',
+            tiktokDaily: '@mothanoi.daily'
+        },
+        lat: 21.0153,
+        lng: 105.8227,
+        image: 'images/store1.jpg'
     }
 ];
 
