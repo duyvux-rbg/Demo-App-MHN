@@ -123,17 +123,16 @@ input, select, textarea {
     height: 100%;
 }
 
-.logo h1 {
-    font-size: 24px;
-    color: var(--primary-orange);
-    font-weight: 700;
-    line-height: 1;
+.logo {
+    display: flex;
+    align-items: center;
 }
 
-.logo-subtitle {
-    font-size: 12px;
-    color: var(--dark-brown);
-    font-weight: 400;
+.logo-img {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+    cursor: pointer;
 }
 
 .nav-menu {
@@ -1547,16 +1546,12 @@ section {
     margin-bottom: var(--spacing-xl);
 }
 
-.logo-large h1 {
-    font-size: 32px;
-    color: var(--primary-orange);
-    font-weight: 700;
-    margin-bottom: var(--spacing-xs);
-}
-
-.logo-large p {
-    font-size: 16px;
-    color: var(--dark-brown);
+.logo-large-img {
+    width: 180px;
+    height: auto;
+    object-fit: contain;
+    margin: 0 auto;
+    display: block;
 }
 
 .login-container h2,
