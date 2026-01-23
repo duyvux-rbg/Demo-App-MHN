@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Một Hà Nội Coffee and Tea</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header class="header" id="header">
+        <div class="container header-container">
+            <div class="logo">
+                <h1>Một Hà Nội</h1>
+                <p class="logo-subtitle">Coffee & Tea</p>
+            </div>
+
+            <nav class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-link active" data-page="home">Trang chủ</a>
+                <a href="#order" class="nav-link" data-page="order">Đặt hàng</a>
+                <a href="#stores" class="nav-link" data-page="stores">Cửa hàng</a>
+                <a href="#rewards" class="nav-link" data-page="rewards">Ưu đãi</a>
+                <a href="#more" class="nav-link" data-page="more">Khác</a>
+            </nav>
+
+            <div class="header-actions">
+                <button class="btn-icon" id="btnSearch" title="Tìm kiếm">
+                    <span>🔍</span>
+                </button>
+                <button class="btn-icon" id="btnCart" title="Giỏ hàng">
+                    <span>🛒</span>
+                    <span class="cart-badge" id="cartBadge">0</span>
+                </button>
+                <button class="btn-icon" id="btnUser" title="Tài khoản">
+                    <span>👤</span>
+                </button>
+                <button class="btn-language" id="btnLanguage">VI</button>
+                <button class="btn-hamburger" id="btnHamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <!-- HOME PAGE -->
+        <div class="page active" id="page-home">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="container">
+                    <h2 class="hero-title">Chào mừng đến với Một Hà Nội</h2>
+                    <div class="hero-tabs">
+                        <button class="hero-tab active" data-type="delivery">
+                            <span class="tab-icon">📦</span>
+                            <span class="tab-text">Giao hàng</span>
+                        </button>
+                        <button class="hero-tab" data-type="takeaway">
+                            <span class="tab-icon">🚶</span>
+                            <span class="tab-text">Mang đi</span>
+                        </button>
+                        <button class="hero-tab" data-type="dinein">
+                            <span class="tab-icon">🪑</span>
+                            <span class="tab-text">Tại chỗ</span>
+                        </button>
+                        <button class="hero-tab" data-type="points">
+                            <span class="tab-icon">⭐</span>
+                            <span class="tab-text">Tích điểm</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Banner Carousel -->
+            <section class="banner-section">
+                <div class="container">
+                    <div class="banner-carousel" id="bannerCarousel">
+                        <!-- Banners will be inserted here by JS -->
+                    </div>
+                    <div class="banner-dots" id="bannerDots"></div>
+                    <button class="banner-btn banner-prev" id="bannerPrev">‹</button>
+                    <button class="banner-btn banner-next" id="bannerNext">›</button>
+                </div>
+            </section>
+
+            <!-- Explore More Section -->
+            <section class="explore-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>Khám phá thêm ✨</h2>
+                        <a href="#rewards" class="link-more">Xem thêm ›</a>
+                    </div>
+                    <div class="promo-grid" id="promoGrid">
+                        <!-- Promo cards will be inserted here by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Orders Section (only for logged in users) -->
+            <section class="orders-section" id="ordersSection" style="display: none;">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>Đơn hàng gần đây</h2>
+                        <a href="#order-history" class="link-more">Xem tất cả ›</a>
+                    </div>
+                    <div class="recent-orders" id="recentOrders">
+                        <!-- Recent orders will be inserted here by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Search Bar -->
+            <section class="search-section">
+                <div class="container">
+                    <div class="search-bar-container">
+                        <input type="text" class="search-input" id="homeSearchInput" placeholder="Tìm kiếm sản phẩm...">
+                        <button class="search-btn">🔍</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Categories -->
+            <section class="categories-section">
+                <div class="container">
+                    <div class="categories-scroll" id="quickCategories">
+                        <!-- Categories will be inserted here by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Must Try Section -->
+            <section class="must-try-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>Món phải thử</h2>
+                        <span class="badge badge-must-try">Must Try</span>
+                    </div>
+                    <div class="product-grid" id="mustTryGrid">
+                        <!-- Must try products will be inserted here by JS -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ORDER PAGE -->
+        <div class="page" id="page-order">
+            <section class="order-page">
+                <div class="container">
+                    <div class="order-header">
+                        <h1>Đặt hàng</h1>
+                        <select class="category-dropdown" id="categoryDropdown">
+                            <option value="">Danh mục ▼</option>
+                        </select>
+                    </div>
+
+                    <!-- Category Tabs -->
+                    <div class="category-tabs-sticky">
+                        <div class="category-tabs" id="categoryTabs">
+                            <!-- Category tabs will be inserted here by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Products Grid -->
+                    <div class="products-container" id="productsContainer">
+                        <!-- Products will be inserted here by JS -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- STORES PAGE -->
+        <div class="page" id="page-stores">
+            <section class="stores-page">
+                <div class="container">
+                    <!-- Store Intro -->
+                    <div class="store-intro">
+                        <h1>Về Một Hà Nội Coffee and Tea</h1>
+                        <p>Chúng tôi mang đến không gian thưởng thức cafe truyền thống kết hợp với phong cách hiện đại, nơi mỗi ly cà phê, trà được pha chế tâm huyết từ những nguyên liệu chất lượng nhất.</p>
+                        <div class="store-images">
+                            <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600" alt="Store 1">
+                            <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600" alt="Store 2">
+                        </div>
+                    </div>
+
+                    <!-- Map Container -->
+                    <div class="map-container">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.6206744447827!2d105.80158631476292!3d20.99470978600655!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ad5568e0c723%3A0x5c2d49e1f0a8c0dd!2zVHLGsOG7nW5nIFRIUFQgTmjDom4gQ2jDrW5o!5e0!3m2!1svi!2s!4v1642507890123!5m2!1svi!2s"
+                            width="100%"
+                            height="400"
+                            style="border:0;"
+                            allowfullscreen=""
+                            loading="lazy">
+                        </iframe>
+                    </div>
+
+                    <!-- Store List -->
+                    <div class="store-list" id="storeList">
+                        <!-- Stores will be inserted here by JS -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- REWARDS PAGE -->
+        <div class="page" id="page-rewards">
+            <section class="rewards-page">
+                <div class="container">
+                    <!-- Membership Card -->
+                    <div class="membership-card" id="membershipCard">
+                        <div class="card-header">
+                            <span class="card-brand">MỘT HÀ NỘI</span>
+                            <span class="card-tier" id="cardTier">Hạng Gold</span>
+                        </div>
+                        <div class="card-name" id="cardName">NGUYỄN VĂN A</div>
+                        <div class="card-points">
+                            <div>
+                                <span class="points-label">Điểm của bạn</span>
+                                <span class="points-value" id="pointsValue">1250</span>
+                            </div>
+                            <a href="#" class="points-link">Tem của bạn 🔄</a>
+                        </div>
+                        <div class="qr-section">
+                            <div class="qr-code">
+                                <div class="qr-placeholder">QR CODE</div>
+                            </div>
+                            <p class="qr-text">Quét QR để tích điểm tại quầy</p>
+                        </div>
+                    </div>
+
+                    <!-- Tier Badges -->
+                    <div class="tier-badges" id="tierBadges">
+                        <!-- Tier badges will be inserted here by JS -->
+                    </div>
+
+                    <!-- Voucher Section -->
+                    <div class="section-header">
+                        <h2>Kho Voucher</h2>
+                    </div>
+                    <div class="voucher-list" id="voucherList">
+                        <!-- Vouchers will be inserted here by JS -->
+                    </div>
+
+                    <!-- Rewards Exchange -->
+                    <div class="section-header">
+                        <h2>Đổi điểm lấy quà</h2>
+                    </div>
+                    <div class="rewards-list" id="rewardsList">
+                        <!-- Rewards will be inserted here by JS -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- MORE PAGE -->
+        <div class="page" id="page-more">
+            <section class="more-page">
+                <div class="container">
+                    <h1>Khác</h1>
+
+                    <div class="menu-section">
+                        <h3>Tiện ích</h3>
+                        <ul class="menu-list">
+                            <li><a href="#order-history" class="menu-item">📋 Lịch sử đơn hàng</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="menu-section">
+                        <h3>Hỗ trợ</h3>
+                        <ul class="menu-list">
+                            <li><a href="#rate" class="menu-item">⭐ Đánh giá đơn hàng</a></li>
+                            <li><a href="#contact" class="menu-item">💬 Liên hệ & Góp ý</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="menu-section">
+                        <h3>Tài khoản</h3>
+                        <ul class="menu-list">
+                            <li><a href="#profile" class="menu-item">👤 Thông tin cá nhân</a></li>
+                            <li><a href="#addresses" class="menu-item">📍 Địa chỉ đã lưu</a></li>
+                            <li><a href="#settings" class="menu-item">⚙️ Cài đặt</a></li>
+                            <li><a href="#logout" class="menu-item logout">🚪 Đăng xuất</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="menu-section">
+                        <h3>Chung</h3>
+                        <ul class="menu-list">
+                            <li><a href="#terms" class="menu-item">📄 Điều khoản</a></li>
+                            <li><a href="#language" class="menu-item">🌐 Ngôn ngữ (Tiếng Việt / English)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- CART PAGE -->
+        <div class="page" id="page-cart">
+            <section class="cart-page">
+                <div class="container">
+                    <h1>Giỏ hàng của bạn</h1>
+
+                    <div class="cart-content" id="cartContent">
+                        <!-- Cart items will be inserted here by JS -->
+                    </div>
+
+                    <div class="cart-empty" id="cartEmpty" style="display: none;">
+                        <div class="empty-icon">🛒</div>
+                        <h3>Giỏ hàng trống</h3>
+                        <p>Hãy thêm sản phẩm vào giỏ hàng!</p>
+                        <a href="#order" class="btn btn-primary">Đặt hàng ngay</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- CHECKOUT PAGE -->
+        <div class="page" id="page-checkout">
+            <section class="checkout-page">
+                <div class="container">
+                    <h1>Thanh toán</h1>
+
+                    <!-- Delivery Info -->
+                    <div class="delivery-info">
+                        <h3>📍 Địa chỉ giao hàng</h3>
+                        <div class="address-selected" id="addressSelected">
+                            <!-- Selected address will be inserted here by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Payment Methods -->
+                    <div class="payment-methods">
+                        <h3>💳 Phương thức thanh toán</h3>
+                        <div class="payment-options" id="paymentOptions">
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="card">
+                                <div class="option-info">
+                                    <span class="option-title">Thẻ tín dụng/ghi nợ</span>
+                                    <small>Visa, Mastercard, JCB</small>
+                                </div>
+                            </label>
+
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="momo">
+                                <div class="option-info">
+                                    <span class="option-title">Ví MoMo</span>
+                                </div>
+                            </label>
+
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="bank">
+                                <div class="option-info">
+                                    <span class="option-title">Chuyển khoản ngân hàng</span>
+                                </div>
+                            </label>
+
+                            <label class="payment-option">
+                                <input type="radio" name="payment" value="cod" checked>
+                                <div class="option-info">
+                                    <span class="option-title">Thanh toán khi nhận hàng (COD)</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Order Summary -->
+                    <div class="checkout-summary" id="checkoutSummary">
+                        <!-- Summary will be inserted here by JS -->
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="checkout-actions">
+                        <button class="btn btn-secondary" id="btnBackToCart">Quay lại</button>
+                        <button class="btn btn-primary" id="btnConfirmOrder">Xác nhận đặt hàng</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ORDER HISTORY PAGE -->
+        <div class="page" id="page-order-history">
+            <section class="order-history-page">
+                <div class="container">
+                    <h1>Lịch sử đơn hàng</h1>
+
+                    <!-- Order Status Tabs -->
+                    <div class="order-tabs">
+                        <button class="order-tab active" data-status="all">Tất cả</button>
+                        <button class="order-tab" data-status="pending">Chờ xác nhận</button>
+                        <button class="order-tab" data-status="preparing">Đang chuẩn bị</button>
+                        <button class="order-tab" data-status="delivering">Đang giao</button>
+                        <button class="order-tab" data-status="completed">Hoàn thành</button>
+                        <button class="order-tab" data-status="cancelled">Đã hủy</button>
+                    </div>
+
+                    <!-- Order List -->
+                    <div class="order-list" id="orderList">
+                        <!-- Orders will be inserted here by JS -->
+                    </div>
+
+                    <div class="order-empty" id="orderEmpty" style="display: none;">
+                        <div class="empty-icon">📋</div>
+                        <h3>Chưa có đơn hàng</h3>
+                        <p>Bạn chưa có đơn hàng nào!</p>
+                        <a href="#order" class="btn btn-primary">Đặt hàng ngay</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PROFILE PAGE -->
+        <div class="page" id="page-profile">
+            <section class="profile-page">
+                <div class="container">
+                    <h1>Thông tin cá nhân</h1>
+
+                    <form class="profile-form" id="profileForm">
+                        <div class="form-group">
+                            <label>Họ và tên</label>
+                            <input type="text" id="profileName" value="" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Số điện thoại</label>
+                            <input type="tel" id="profilePhone" value="" disabled>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="profileEmail" value="">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Ngày sinh</label>
+                            <input type="date" id="profileBirthday" value="">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Giới tính</label>
+                            <select id="profileGender">
+                                <option value="male">Nam</option>
+                                <option value="female">Nữ</option>
+                                <option value="other">Khác</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+
+        <!-- ADDRESSES PAGE -->
+        <div class="page" id="page-addresses">
+            <section class="addresses-page">
+                <div class="container">
+                    <h1>Địa chỉ đã lưu</h1>
+
+                    <button class="btn btn-primary mb-20" id="btnAddAddress">+ Thêm địa chỉ mới</button>
+
+                    <div class="address-list" id="addressList">
+                        <!-- Addresses will be inserted here by JS -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- SETTINGS PAGE -->
+        <div class="page" id="page-settings">
+            <section class="settings-page">
+                <div class="container">
+                    <h1>Cài đặt</h1>
+
+                    <div class="settings-section">
+                        <h3>Thông báo</h3>
+                        <label class="switch-option">
+                            <span>Nhận thông báo khuyến mãi</span>
+                            <input type="checkbox" id="settingPromo" checked>
+                            <span class="switch"></span>
+                        </label>
+                        <label class="switch-option">
+                            <span>Nhận thông báo đơn hàng</span>
+                            <input type="checkbox" id="settingOrder" checked>
+                            <span class="switch"></span>
+                        </label>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Hiển thị</h3>
+                        <label class="switch-option">
+                            <span>Chế độ tối</span>
+                            <input type="checkbox" id="settingDarkMode">
+                            <span class="switch"></span>
+                        </label>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>Tài khoản</h3>
+                        <button class="btn btn-secondary mb-10" id="btnChangePassword">Đổi mật khẩu</button>
+                        <button class="btn btn-danger" id="btnLogoutSettings">Đăng xuất</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- LOGIN PAGE -->
+        <div class="page" id="page-login">
+            <section class="login-page">
+                <div class="login-container">
+                    <div class="logo-large">
+                        <h1>Một Hà Nội</h1>
+                        <p>Coffee & Tea</p>
+                    </div>
+                    <h2>Đăng nhập</h2>
+
+                    <form class="login-form" id="loginForm">
+                        <div class="form-group">
+                            <label>Số điện thoại</label>
+                            <input type="tel" id="loginPhone" placeholder="0987654321" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Mật khẩu</label>
+                            <input type="password" id="loginPassword" placeholder="Nhập mật khẩu" required>
+                        </div>
+
+                        <a href="#forgot-password" class="link">Quên mật khẩu?</a>
+
+                        <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                    </form>
+
+                    <div class="divider">Hoặc</div>
+
+                    <button class="btn btn-google" id="btnGoogleLogin">
+                        <span>G</span> Đăng nhập với Google
+                    </button>
+
+                    <p class="signup-link">
+                        Chưa có tài khoản? <a href="#register">Đăng ký ngay</a>
+                    </p>
+                </div>
+            </section>
+        </div>
+
+        <!-- REGISTER PAGE -->
+        <div class="page" id="page-register">
+            <section class="register-page">
+                <div class="register-container">
+                    <div class="logo-large">
+                        <h1>Một Hà Nội</h1>
+                        <p>Coffee & Tea</p>
+                    </div>
+                    <h2>Đăng ký tài khoản</h2>
+
+                    <form class="register-form" id="registerForm">
+                        <div class="form-group">
+                            <label>Họ và tên</label>
+                            <input type="text" id="registerName" placeholder="Nguyễn Văn A" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Số điện thoại</label>
+                            <input type="tel" id="registerPhone" placeholder="0987654321" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Mật khẩu</label>
+                            <input type="password" id="registerPassword" placeholder="Tối thiểu 6 ký tự" required minlength="6">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Xác nhận mật khẩu</label>
+                            <input type="password" id="registerConfirmPassword" placeholder="Nhập lại mật khẩu" required>
+                        </div>
+
+                        <label class="checkbox">
+                            <input type="checkbox" id="registerAgree" required>
+                            <span>Tôi đồng ý với <a href="#terms">Điều khoản sử dụng</a></span>
+                        </label>
+
+                        <button type="submit" class="btn btn-primary">Đăng ký</button>
+                    </form>
+
+                    <p class="login-link">
+                        Đã có tài khoản? <a href="#login">Đăng nhập</a>
+                    </p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>Một Hà Nội</h3>
+                    <p>Coffee & Tea - Hương vị truyền thống, phong cách hiện đại</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Liên hệ</h4>
+                    <p>📞 Hotline: 1900 xxxx</p>
+                    <p>📧 Email: contact@mothanoi.vn</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Mạng xã hội</h4>
+                    <div class="social-links">
+                        <a href="#">Facebook</a>
+                        <a href="#">Instagram</a>
+                        <a href="#">Zalo</a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Chính sách</h4>
+                    <a href="#terms">Điều khoản sử dụng</a>
+                    <a href="#privacy">Chính sách bảo mật</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Một Hà Nội Coffee and Tea. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Product Detail Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-overlay" id="modalOverlay"></div>
+        <div class="modal-content modal-product">
+            <button class="modal-close" id="modalClose">×</button>
+            <div class="modal-body" id="modalBody">
+                <!-- Product details will be inserted here by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/web.js"></script>
+</body>
+</html>
