@@ -379,29 +379,41 @@ input, select, textarea {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.8);
-    color: var(--dark-brown);
-    font-size: 24px;
+    background-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    color: var(--white);
+    font-size: 18px;
+    font-weight: 700;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
     z-index: 10;
+    cursor: pointer;
 }
 
 .banner-btn:hover {
-    background-color: var(--white);
+    background-color: rgba(255, 255, 255, 0.9);
+    border-color: var(--white);
+    color: var(--dark-brown);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.banner-btn:active {
+    transform: translateY(-50%) scale(0.95);
 }
 
 .banner-prev {
-    left: 20px;
+    left: 16px;
 }
 
 .banner-next {
-    right: 20px;
+    right: 16px;
 }
 
 /* ==================== SECTIONS ==================== */
@@ -2386,16 +2398,16 @@ section {
     }
 
     .banner-btn {
-        width: 30px;
-        height: 30px;
-        font-size: 18px;
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
     }
 
     .banner-prev {
-        left: 10px;
+        left: 8px;
     }
 
     .banner-next {
-        right: 10px;
+        right: 8px;
     }
 }
