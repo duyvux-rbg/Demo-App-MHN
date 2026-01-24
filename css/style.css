@@ -639,7 +639,15 @@ section {
 .product-info h4 {
     font-size: var(--font-size-h4);
     color: var(--dark-brown);
+    margin-bottom: 4px;
+}
+
+.product-name-en {
+    font-size: var(--font-size-small);
+    font-style: italic;
+    color: var(--gray-text);
     margin-bottom: var(--spacing-sm);
+    line-height: 1.4;
 }
 
 .price {

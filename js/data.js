@@ -2,191 +2,460 @@
 
 // Danh mục sản phẩm
 const categories = [
-    { id: 'coffee', name: 'Cà phê', icon: '☕', nameEn: 'Coffee' },
-    { id: 'tea', name: 'Trà', icon: '🍵', nameEn: 'Tea' },
-    { id: 'matcha', name: 'Matcha', icon: '🧋', nameEn: 'Matcha' },
-    { id: 'milk-tea', name: 'Trà sữa', icon: '🥤', nameEn: 'Milk Tea' },
-    { id: 'fruit-tea', name: 'Trà trái cây', icon: '🍹', nameEn: 'Fruit Tea' },
-    { id: 'cake', name: 'Bánh ngọt', icon: '🍰', nameEn: 'Cake' },
-    { id: 'topping', name: 'Topping', icon: '➕', nameEn: 'Topping' }
+    { id: 'ca-phe-phin', name: 'CÀ PHÊ PHIN', icon: '☕', nameEn: 'VIETNAMESE COFFEE' },
+    { id: 'ca-phe-may', name: 'CÀ PHÊ MÁY', icon: '☕', nameEn: 'ITALIAN COFFEE' },
+    { id: 'tra', name: 'TRÀ', icon: '🍵', nameEn: 'TEA' },
+    { id: 'do-uong-khac', name: 'ĐỒ UỐNG KHÁC', icon: '🧋', nameEn: 'OTHERS' },
+    { id: 'khong-caffein', name: 'ĐỒ UỐNG KHÔNG CAFFEIN', icon: '🌿', nameEn: 'NON-CAFFEINE' },
+    { id: 'tra-sua', name: 'TRÀ SỮA', icon: '🥤', nameEn: 'MILK TEA' },
+    { id: 'da-xay', name: 'ĐÁ XAY', icon: '🍹', nameEn: 'ICED BLEND' },
+    { id: 'nuoc-ep', name: 'NƯỚC ÉP', icon: '🧃', nameEn: 'JUICE' }
 ];
 
 // Sản phẩm
 const products = [
-    // Cà phê
+    // CÀ PHÊ PHIN – VIETNAMESE COFFEE
     {
-        id: 'cf001',
-        name: 'Cà Phê Sữa Đá',
-        nameEn: 'Iced Milk Coffee',
-        category: 'coffee',
-        price: 39000,
-        image: 'https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?w=400',
-        description: 'Cà phê phin truyền thống pha với sữa đặc',
+        id: 'cf-phin-001',
+        name: 'Đen',
+        nameEn: 'black coffee',
+        category: 'ca-phe-phin',
+        price: 40000,
+        image: 'https://i.postimg.cc/nLqCRBDJ/Black-Coffee-500x500.webp',
+        description: 'Cà phê đen truyền thống',
         bestseller: true,
         available: true
     },
     {
-        id: 'cf002',
-        name: 'Cà Phê Đen Đá',
-        nameEn: 'Iced Black Coffee',
-        category: 'coffee',
-        price: 35000,
-        image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400',
-        description: 'Cà phê phin nguyên chất',
-        bestseller: false,
-        available: true
-    },
-    {
-        id: 'cf003',
-        name: 'Bạc Xỉu',
-        nameEn: 'Bac Xiu',
-        category: 'coffee',
-        price: 42000,
-        image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400',
-        description: 'Cà phê sữa nhiều sữa, ít cà phê',
-        bestseller: true,
-        available: true
-    },
-    {
-        id: 'cf004',
-        name: 'Cappuccino',
-        nameEn: 'Cappuccino',
-        category: 'coffee',
-        price: 49000,
-        image: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400',
-        description: 'Espresso, sữa tươi và bọt sữa mịn',
-        bestseller: false,
-        available: true
-    },
-
-    // Matcha
-    {
-        id: 'mt001',
-        name: 'Matcha Tây Bắc Yuzu',
-        nameEn: 'Tay Bac Matcha Yuzu',
-        category: 'matcha',
-        price: 59000,
-        image: 'https://images.unsplash.com/photo-1582793988951-9aed5509eb97?w=400',
-        description: 'Matcha Tây Bắc kết hợp yuzu tươi mát',
-        bestseller: true,
-        mustTry: true,
-        available: true
-    },
-    {
-        id: 'mt002',
-        name: 'Matcha Đá Xay',
-        nameEn: 'Matcha Frappe',
-        category: 'matcha',
-        price: 55000,
-        image: 'https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=400',
-        description: 'Matcha xay với đá và kem tươi',
-        bestseller: true,
-        available: true
-    },
-    {
-        id: 'mt003',
-        name: 'Matcha Latte',
-        nameEn: 'Matcha Latte',
-        category: 'matcha',
-        price: 52000,
-        image: 'https://images.unsplash.com/photo-1536013564361-f4c82d717d7e?w=400',
-        description: 'Matcha pha với sữa tươi nóng',
-        bestseller: false,
-        available: true
-    },
-
-    // Trà
-    {
-        id: 'tea001',
-        name: 'Trà Olong Tứ Quý Yuzu',
-        nameEn: 'Oolong Tea Yuzu',
-        category: 'tea',
-        price: 59000,
-        image: 'https://images.unsplash.com/photo-1597318112787-f8b90f8dbdcc?w=400',
-        description: 'Trà olong hảo hạng với yuzu Nhật Bản',
-        bestseller: true,
-        mustTry: true,
-        available: true
-    },
-    {
-        id: 'tea002',
-        name: 'Trà Đào Cam Sả',
-        nameEn: 'Peach Orange Lemongrass Tea',
-        category: 'fruit-tea',
-        price: 55000,
-        image: 'https://images.unsplash.com/photo-1556881261-8e5a6ae6b4ad?w=400',
-        description: 'Trà trái cây thanh mát với đào, cam và sả',
-        bestseller: true,
-        available: true
-    },
-    {
-        id: 'tea003',
-        name: 'Trá Vải',
-        nameEn: 'Lychee Tea',
-        category: 'fruit-tea',
-        price: 52000,
-        image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400',
-        description: 'Trà vải thơm ngon, mát lạnh',
-        bestseller: false,
-        available: true
-    },
-
-    // Trà sữa
-    {
-        id: 'mktea001',
-        name: 'Trà Sữa Trân Châu Đường Đen',
-        nameEn: 'Brown Sugar Bubble Milk Tea',
-        category: 'milk-tea',
-        price: 49000,
-        image: 'https://images.unsplash.com/photo-1525385133512-2f3bdd039054?w=400',
-        description: 'Trà sữa với trân châu đường đen thơm ngon',
-        bestseller: true,
-        available: true
-    },
-    {
-        id: 'mktea002',
-        name: 'Trà Sữa Olong',
-        nameEn: 'Oolong Milk Tea',
-        category: 'milk-tea',
+        id: 'cf-phin-002',
+        name: 'Nâu',
+        nameEn: 'brown coffee',
+        category: 'ca-phe-phin',
         price: 45000,
-        image: 'https://images.unsplash.com/photo-1558857563-b101ca14d66c?w=400',
-        description: 'Trà sữa olong truyền thống',
+        image: 'https://i.postimg.cc/63jwYpYw/download-(3).jpg',
+        description: 'Cà phê nâu truyền thống',
         bestseller: false,
         available: true
     },
-
-    // Bánh
     {
-        id: 'cake001',
-        name: 'Bánh Tiramisu',
-        nameEn: 'Tiramisu Cake',
-        category: 'cake',
-        price: 45000,
-        image: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400',
-        description: 'Bánh Tiramisu Ý mềm mịn',
+        id: 'cf-phin-003',
+        name: 'Bạc sỉu',
+        nameEn: 'white coffee',
+        category: 'ca-phe-phin',
+        price: 49000,
+        image: 'https://i.postimg.cc/5yQcgqX3/download-(4).jpg',
+        description: 'Cà phê sữa nhiều sữa',
         bestseller: true,
         available: true
     },
     {
-        id: 'cake002',
-        name: 'Bánh Mousse Matcha',
-        nameEn: 'Matcha Mousse Cake',
-        category: 'cake',
+        id: 'cf-phin-004',
+        name: 'Phố Huế',
+        nameEn: 'cà phê phin kem mặn / salty cream coffee',
+        category: 'ca-phe-phin',
+        price: 49000,
+        image: 'https://i.postimg.cc/SQYNDWbk/salt-coffee-480x480.webp',
+        description: 'Cà phê phin với kem mặn thơm ngon',
+        bestseller: false,
+        available: true
+    },
+
+    // CÀ PHÊ MÁY – ITALIAN COFFEE
+    {
+        id: 'cf-may-001',
+        name: 'Espresso',
+        nameEn: 'Espresso',
+        category: 'ca-phe-may',
+        price: 40000,
+        image: 'https://i.postimg.cc/0571zZqj/download-(5).jpg',
+        description: 'Espresso đậm đà Ý',
+        bestseller: false,
+        available: true
+    },
+    {
+        id: 'cf-may-002',
+        name: 'Americano',
+        nameEn: 'Americano',
+        category: 'ca-phe-may',
+        price: 40000,
+        image: 'https://i.postimg.cc/FKqgXjW7/americano-2-280dc6f3f644483db59f71ad42975982.jpg',
+        description: 'Americano thanh mát',
+        bestseller: true,
+        available: true
+    },
+    {
+        id: 'cf-may-003',
+        name: 'Mỹ Đình',
+        nameEn: 'americano cam / orange americano',
+        category: 'ca-phe-may',
+        price: 49000,
+        image: 'https://i.postimg.cc/X73KWN83/glass-iced-americano-black-coffee-600nw-1964261182.webp',
+        description: 'Americano kết hợp cam tươi',
+        bestseller: false,
+        available: true
+    },
+    {
+        id: 'cf-may-004',
+        name: 'La Thành',
+        nameEn: 'latte',
+        category: 'ca-phe-may',
+        price: 50000,
+        image: 'https://i.postimg.cc/9MZT3swZ/download-(6).jpg',
+        description: 'Latte mềm mịn',
+        bestseller: true,
+        available: true
+    },
+    {
+        id: 'cf-may-005',
+        name: 'Tràng Tiền',
+        nameEn: 'cappuccino',
+        category: 'ca-phe-may',
+        price: 50000,
+        image: 'https://i.postimg.cc/NMq9xbCt/images-(2).jpg',
+        description: 'Cappuccino Ý truyền thống',
+        bestseller: false,
+        available: true
+    },
+    {
+        id: 'cf-may-006',
+        name: 'Long Biên',
+        nameEn: 'mocha',
+        category: 'ca-phe-may',
+        price: 55000,
+        image: 'https://i.postimg.cc/6qHpFhcv/images-(3).jpg',
+        description: 'Mocha socola thơm ngon',
+        bestseller: false,
+        available: true
+    },
+    {
+        id: 'cf-may-007',
+        name: 'Mã Mây',
+        nameEn: 'cà phê máy kem béo / creamy coffee',
+        category: 'ca-phe-may',
+        price: 55000,
+        image: 'https://i.postimg.cc/bvQNqPLZ/images-(4).jpg',
+        description: 'Cà phê máy với kem béo ngậy',
+        bestseller: false,
+        available: true
+    },
+    {
+        id: 'cf-may-008',
+        name: 'Hàng Muối',
+        nameEn: 'cà phê caramel mặn / salted caramel latte',
+        category: 'ca-phe-may',
+        price: 55000,
+        image: 'https://i.postimg.cc/mk6TmgZn/images-(5).jpg',
+        description: 'Latte caramel mặn đặc biệt',
+        bestseller: false,
+        available: true
+    },
+
+    // TRÀ – TEA
+    {
+        id: 'tea-001',
+        name: 'Hàng Vải',
+        nameEn: 'trà vải hoa hồng / lychee rose tea',
+        category: 'tra',
+        price: 55000,
+        image: 'https://i.postimg.cc/1zZsCTSH/c12e91424bb7a62c70db83fe6bb7e727.jpg',
+        description: 'Trà vải hoa hồng thơm dịu',
+        bestseller: true,
+        available: true
+    },
+    {
+        id: 'tea-002',
+        name: 'Phan Đình Phùng',
+        nameEn: 'trà táo xanh kiwi / green apple, kiwi tea',
+        category: 'tra',
+        price: 55000,
+        image: 'https://i.postimg.cc/kX6Cn9XL/Tra-Kiwi-Tao-Xanh-55k-v.png',
+        description: 'Trà táo xanh kiwi tươi mát',
+        bestseller: false,
+        available: true
+    },
+    {
+        id: 'tea-003',
+        name: 'Hàng Bông',
+        nameEn: 'trà oolong kem phomai / oolong tea, creamcheese',
+        category: 'tra',
+        price: 50000,
+        image: 'https://i.postimg.cc/C1rygr39/tra-oolong-kem-sua-1.jpg',
+        description: 'Trà oolong với kem phô mai béo ngậy',
+        bestseller: true,
+        available: true
+    },
+    {
+        id: 'tea-004',
+        name: 'Nhà Thờ',
+        nameEn: 'hồng trà chanh vàng / lemon black tea',
+        category: 'tra',
+        price: 50000,
+        image: 'https://i.postimg.cc/Hxd5gB0d/images-(6).jpg',
+        description: 'Hồng trà chanh vàng thanh mát',
+        bestseller: false,
+        available: true
+    },
+    {
+        id: 'tea-005',
+        name: 'Hàng Đào',
+        nameEn: 'trà ổi hồng đào / peach, pink guava tea',
+        category: 'tra',
+        price: 55000,
+        image: 'https://i.postimg.cc/YCFmLJ8T/toh2-620x620.jpg',
+        description: 'Trà ổi hồng đào ngọt dịu',
+        bestseller: true,
+        available: true
+    },
+    {
+        id: 'tea-006',
+        name: 'Ngụy Như',
+        nameEn: 'trà dâu rừng chanh vàng / wild-berries, lemon tea',
+        category: 'tra',
+        price: 58000,
+        image: 'https://i.postimg.cc/fbBWVC4v/glass-strawberry-iced-tea-decorated-260nw-2679671989.webp',
+        description: 'Trà dâu rừng chanh vàng chua ngọt',
+        bestseller: false,
+        available: true
+    },
+    {
+        id: 'tea-007',
+        name: 'Văn Miếu',
+        nameEn: 'trà cam quế mật ong / orange, cinnamon, honey tea',
+        category: 'tra',
+        price: 55000,
+        image: 'https://i.postimg.cc/XNZF0Gd6/que-voi-mat-ong3-1.jpg',
+        description: 'Trà cam quế mật ong ấm áp',
+        bestseller: false,
+        available: true
+    },
+    {
+        id: 'tea-008',
+        name: 'Láng Hạ',
+        nameEn: 'trà cam lựu đỏ / orange pomegranate tea',
+        category: 'tra',
+        price: 55000,
+        image: 'https://i.postimg.cc/zGkHknZ4/z5569596208818-e870c13e01c6fa550f4d9a62c2318d33-e5af54417bc74078b1fd60a972751cc7.jpg',
+        description: 'Trà cam lựu đỏ thanh mát',
+        bestseller: false,
+        available: true
+    },
+
+    // ĐỒ UỐNG KHÁC – OTHERS
+    {
+        id: 'other-001',
+        name: 'Linh Lang',
+        nameEn: 'matcha latte',
+        category: 'do-uong-khac',
+        price: 55000,
+        image: 'https://i.postimg.cc/qvBv4SS7/images-(7).jpg',
+        description: 'Matcha latte mịn màng',
+        bestseller: true,
+        available: true
+    },
+    {
+        id: 'other-002',
+        name: 'Đồng Xuân',
+        nameEn: 'dâu sữa phomai / strawberry milkshake, creamcheese',
+        category: 'do-uong-khac',
+        price: 55000,
+        image: 'https://i.postimg.cc/mrtZFMbk/images-(8).jpg',
+        description: 'Sinh tố dâu sữa phô mai ngọt ngào',
+        bestseller: false,
+        available: true
+    },
+    {
+        id: 'other-003',
+        name: 'Văn Cao',
+        nameEn: 'chocolate nóng / hot chocolate',
+        category: 'do-uong-khac',
+        price: 55000,
+        image: 'https://i.postimg.cc/5yqfMSmm/hotchocolate7884316x9-1694402215554101599547.jpg',
+        description: 'Chocolate nóng đậm đà',
+        bestseller: false,
+        available: true
+    },
+    {
+        id: 'other-004',
+        name: 'Trích Sài',
+        nameEn: 'choco kem mặn / iced salty cream chocolate',
+        category: 'do-uong-khac',
+        price: 55000,
+        image: 'https://i.postimg.cc/Qdnhstc6/images-(9).jpg',
+        description: 'Chocolate đá với kem mặn thơm béo',
+        bestseller: false,
+        available: true
+    },
+
+    // ĐỒ UỐNG KHÔNG CAFFEIN – NON-CAFFEINE
+    {
+        id: 'non-caff-001',
+        name: 'Âu Cơ',
+        nameEn: 'trà hoa hồng kỷ tử táo đỏ / roses, jujube, goji berries tea',
+        category: 'khong-caffein',
+        price: 50000,
+        image: 'https://i.postimg.cc/rscLgtLK/cong-dung-tra-hoa-hong.webp',
+        description: 'Trà hoa hồng kỷ tử táo đỏ bổ dưỡng',
+        bestseller: false,
+        available: true
+    },
+    {
+        id: 'non-caff-002',
+        name: 'Tây Tựu',
+        nameEn: 'trà hoa đậu biếc / butterfly pea tea',
+        category: 'khong-caffein',
         price: 48000,
-        image: 'https://images.unsplash.com/photo-1578775887804-699de7086ff9?w=400',
-        description: 'Bánh mousse matcha béo ngậy',
+        image: 'https://i.postimg.cc/sDTR9XHx/download-(7).jpg',
+        description: 'Trà hoa đậu biếc màu xanh tự nhiên',
+        bestseller: true,
+        available: true
+    },
+    {
+        id: 'non-caff-003',
+        name: 'Quán An',
+        nameEn: 'trà lê gừng hoa cúc / pear, ginger, chamomile tea',
+        category: 'khong-caffein',
+        price: 48000,
+        image: 'https://i.postimg.cc/Y9654qmW/images-(10).jpg',
+        description: 'Trà lê gừng hoa cúc ấm áp',
         bestseller: false,
         available: true
     },
     {
-        id: 'cake003',
-        name: 'Bánh Croissant',
-        nameEn: 'Croissant',
-        category: 'cake',
-        price: 35000,
-        image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400',
-        description: 'Bánh sừng bò giòn tan',
+        id: 'non-caff-004',
+        name: 'Tứ Liên',
+        nameEn: 'trà quất hồng bì / wampee, kumquat tea',
+        category: 'khong-caffein',
+        price: 48000,
+        image: 'https://i.postimg.cc/GpYNNhzn/images-(11).jpg',
+        description: 'Trà quất hồng bì thanh nhiệt',
         bestseller: false,
+        available: true
+    },
+
+    // TRÀ SỮA – MILK TEA
+    {
+        id: 'milk-tea-001',
+        name: 'Tam Trinh',
+        nameEn: 'trà sữa oolong',
+        category: 'tra-sua',
+        price: 52000,
+        image: 'https://i.postimg.cc/C5v6DZMV/images-(12).jpg',
+        description: 'Trà sữa oolong thơm ngon',
+        bestseller: true,
+        available: true
+    },
+    {
+        id: 'milk-tea-002',
+        name: 'Bạch Mai',
+        nameEn: 'trà nhài sữa',
+        category: 'tra-sua',
+        price: 52000,
+        image: 'https://i.postimg.cc/4Nd0G1wQ/Cach-pha-tra-sua-hoa-nhai-ngon-la-mieng.jpg',
+        description: 'Trà nhài sữa hương thơm dịu nhẹ',
+        bestseller: false,
+        available: true
+    },
+    {
+        id: 'milk-tea-003',
+        name: 'Hồng Mai',
+        nameEn: 'hồng trà sữa',
+        category: 'tra-sua',
+        price: 52000,
+        image: 'https://i.postimg.cc/XvM1w6W2/image-cong-thuc-cach-lam-hong-tra-sua-tran-chau-98e5e7f63797259790ec0d2e0d50ce08.webp',
+        description: 'Hồng trà sữa trân châu truyền thống',
+        bestseller: true,
+        available: true
+    },
+
+    // ĐÁ XAY – ICED BLEND
+    {
+        id: 'ice-blend-001',
+        name: 'Xuân Diệu',
+        nameEn: 'sữa chua dâu tây / strawberry yogurt',
+        category: 'da-xay',
+        price: 62000,
+        image: 'https://i.postimg.cc/90NJ0v17/sua-chua-dau-tay-1.webp',
+        description: 'Sữa chua dâu tây xay đá mát lạnh',
+        bestseller: true,
+        available: true
+    },
+    {
+        id: 'ice-blend-002',
+        name: 'Đào Tấn',
+        nameEn: 'sữa chua đào / peach yogurt',
+        category: 'da-xay',
+        price: 62000,
+        image: 'https://i.postimg.cc/1zcBwgMM/sua-chu-dao-17a43aa5e0604202bdd01aae1004c9a9-grande.jpg',
+        description: 'Sữa chua đào xay đá thơm ngon',
+        bestseller: false,
+        available: true
+    },
+    {
+        id: 'ice-blend-003',
+        name: 'Hồng Hà',
+        nameEn: 'sữa chua ổi hồng / pink guava yogurt',
+        category: 'da-xay',
+        price: 62000,
+        image: 'https://i.postimg.cc/bN79505N/dd.jpg',
+        description: 'Sữa chua ổi hồng xay đá tươi mát',
+        bestseller: false,
+        available: true
+    },
+    {
+        id: 'ice-blend-004',
+        name: 'Nguyễn Hữu Huân',
+        nameEn: 'chocolate đá xay / ice-blended chocolate',
+        category: 'da-xay',
+        price: 60000,
+        image: 'https://i.postimg.cc/cCKf96M1/r-E9403LR48Cl-chocolate-da-xay-1.jpg',
+        description: 'Chocolate đá xay mát lạnh',
+        bestseller: false,
+        available: true
+    },
+    {
+        id: 'ice-blend-005',
+        name: 'Thanh Niên',
+        nameEn: 'trà xoài kem phomai / mango tea, creamcheese',
+        category: 'da-xay',
+        price: 62000,
+        image: 'https://i.postimg.cc/kgNKh08F/yuan2879fe5b272d36c2f56b3f1233180e6b-16254084979171990223794.jpg',
+        description: 'Trà xoài kem phô mai xay đá',
+        bestseller: true,
+        available: true
+    },
+
+    // NƯỚC ÉP – JUICE
+    {
+        id: 'juice-001',
+        name: 'Nước cam',
+        nameEn: 'orange juice',
+        category: 'nuoc-ep',
+        price: 50000,
+        image: 'https://i.postimg.cc/c6ytFhL7/images-(13).jpg',
+        description: 'Nước cam tươi nguyên chất',
+        bestseller: true,
+        available: true
+    },
+    {
+        id: 'juice-002',
+        name: 'Nước chanh',
+        nameEn: 'lemonade',
+        category: 'nuoc-ep',
+        price: 45000,
+        image: 'https://i.postimg.cc/Z5mVRFxV/images-(14).jpg',
+        description: 'Nước chanh tươi mát lạnh',
+        bestseller: false,
+        available: true
+    },
+    {
+        id: 'juice-003',
+        name: 'Nước chanh leo',
+        nameEn: 'passion fruit juice',
+        category: 'nuoc-ep',
+        price: 50000,
+        image: 'https://i.postimg.cc/FRYxqPh4/images-(15).jpg',
+        description: 'Nước chanh leo chua ngọt tự nhiên',
+        bestseller: true,
         available: true
     }
 ];

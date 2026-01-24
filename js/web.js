@@ -329,13 +329,14 @@ function createProductCard(product) {
     return `
         <div class="product-card" onclick='openProductModal(${JSON.stringify(product)})'>
             ${badges.join('')}
-            <img src="${product.image}" alt="${product.name}">
+            <img src="${product.image}" alt="${product.name}" class="product-image">
             <div class="product-info">
-                <h4>${product.name}</h4>
+                <h4 class="product-name">${product.name}</h4>
+                ${product.nameEn ? `<p class="product-name-en">/${product.nameEn}/</p>` : ''}
                 <p class="price">${formatPrice(product.price)}</p>
                 <button class="btn-add ${!product.available ? 'btn-disabled' : ''}"
                         ${!product.available ? 'disabled' : ''}>
-                    ${product.available ? 'Chọn' : 'Tạm hết'}
+                    ${product.available ? 'Chọn món' : 'Tạm hết'}
                 </button>
             </div>
         </div>
