@@ -628,26 +628,79 @@ function applyVoucher() {
 
 // ==================== CHECKOUT PAGE ====================
 function loadCheckoutPage() {
-    // Load selected address
-    const addressSelected = document.getElementById('addressSelected');
-    if (currentUser && currentUser.addresses.length > 0) {
-        const defaultAddress = currentUser.addresses.find(a => a.isDefault) || currentUser.addresses[0];
-        addressSelected.innerHTML = `
-            <p><strong>${defaultAddress.name}</strong> | ${defaultAddress.phone}</p>
-            <p>${defaultAddress.address}</p>
-            <button class="btn-change" onclick="navigateToPage('addresses')">Thay đổi</button>
-        `;
-    } else {
-        addressSelected.innerHTML = `
-            <p>Chưa có địa chỉ giao hàng</p>
-            <button class="btn-change" onclick="navigateToPage('addresses')">Thêm địa chỉ</button>
-        `;
+    // Setup order type listeners
+    setupOrderTypeListeners();
+
+    // Initialize with delivery selected
+    updateCheckoutSummary();
+}
+
+function setupOrderTypeListeners() {
+    const orderTypeRadios = document.querySelectorAll('input[name="orderType"]');
+    orderTypeRadios.forEach(radio => {
+        radio.addEventListener('change', handleOrderTypeChange);
+    });
+
+    // Trigger initial state
+    const checkedRadio = document.querySelector('input[name="orderType"]:checked');
+    if (checkedRadio) {
+        handleOrderTypeChange({ target: checkedRadio });
+    }
+}
+
+function handleOrderTypeChange(e) {
+    const orderType = e.target.value;
+
+    // Update description
+    document.getElementById('descDelivery').style.display = orderType === 'delivery' ? 'block' : 'none';
+    document.getElementById('descTakeaway').style.display = orderType === 'takeaway' ? 'block' : 'none';
+    document.getElementById('descDinein').style.display = orderType === 'dinein' ? 'block' : 'none';
+
+    // Show/hide delivery address section
+    const deliverySection = document.getElementById('deliveryInfoSection');
+    deliverySection.style.display = orderType === 'delivery' ? 'block' : 'none';
+
+    // Update payment options
+    updatePaymentOptions(orderType);
+
+    // Update summary
+    updateCheckoutSummary();
+}
+
+function updatePaymentOptions(orderType) {
+    const paymentOptions = document.querySelectorAll('.payment-option');
+
+    paymentOptions.forEach(option => {
+        const types = option.getAttribute('data-types');
+        if (types && types.includes(orderType)) {
+            option.style.display = 'flex';
+
+            // Auto select first visible option
+            if (!document.querySelector('input[name="payment"]:checked:not([style*="display: none"])')) {
+                const radio = option.querySelector('input[type="radio"]');
+                if (radio) radio.checked = true;
+            }
+        } else {
+            option.style.display = 'none';
+            const radio = option.querySelector('input[type="radio"]');
+            if (radio && radio.checked) {
+                radio.checked = false;
+            }
+        }
+    });
+}
+
+function updateCheckoutSummary() {
+    const checkoutSummary = document.getElementById('checkoutSummary');
+    const orderType = document.querySelector('input[name="orderType"]:checked')?.value || 'delivery';
+    const subtotal = cart.reduce((sum, item) => sum + item.totalPrice, 0);
+
+    let shipping = 0;
+    if (orderType === 'delivery') {
+        const distance = parseFloat(document.getElementById('deliveryDistance')?.value) || 0;
+        shipping = distance * 15000; // 15,000đ per km
     }
 
-    // Load order summary
-    const checkoutSummary = document.getElementById('checkoutSummary');
-    const subtotal = cart.reduce((sum, item) => sum + item.totalPrice, 0);
-    const shipping = 20000;
     const discount = 0;
     const total = subtotal + shipping - discount;
 
@@ -656,10 +709,12 @@ function loadCheckoutPage() {
             <span>Tạm tính:</span>
             <span>${formatPrice(subtotal)}</span>
         </div>
-        <div class="row">
-            <span>Phí giao hàng:</span>
-            <span>${formatPrice(shipping)}</span>
-        </div>
+        ${orderType === 'delivery' ? `
+            <div class="row">
+                <span>Phí giao hàng:</span>
+                <span>${formatPrice(shipping)}</span>
+            </div>
+        ` : ''}
         ${discount > 0 ? `
             <div class="row discount">
                 <span>Giảm giá:</span>
@@ -671,6 +726,13 @@ function loadCheckoutPage() {
             <span>${formatPrice(total)}</span>
         </div>
     `;
+
+    // Add listener to distance input to update summary
+    const distanceInput = document.getElementById('deliveryDistance');
+    if (distanceInput) {
+        distanceInput.removeEventListener('input', updateCheckoutSummary);
+        distanceInput.addEventListener('input', updateCheckoutSummary);
+    }
 }
 
 // ==================== STORES PAGE ====================
@@ -1289,12 +1351,30 @@ function confirmOrder() {
         return;
     }
 
-    if (!currentUser || currentUser.addresses.length === 0) {
-        showToast('Vui lòng thêm địa chỉ giao hàng');
-        navigateToPage('addresses');
+    // Get order type
+    const orderType = document.querySelector('input[name="orderType"]:checked')?.value;
+    if (!orderType) {
+        showToast('Vui lòng chọn phương thức nhận hàng');
         return;
     }
 
+    // Validate delivery address if delivery type
+    if (orderType === 'delivery') {
+        const deliveryAddress = document.getElementById('deliveryAddress')?.value;
+        const deliveryDistance = document.getElementById('deliveryDistance')?.value;
+
+        if (!deliveryAddress || !deliveryDistance) {
+            showToast('Vui lòng nhập đầy đủ địa chỉ và khoảng cách giao hàng');
+            return;
+        }
+
+        if (parseFloat(deliveryDistance) <= 0) {
+            showToast('Khoảng cách phải lớn hơn 0');
+            return;
+        }
+    }
+
+    // Validate payment method
     const paymentMethod = document.querySelector('input[name="payment"]:checked');
     if (!paymentMethod) {
         showToast('Vui lòng chọn phương thức thanh toán');
@@ -1312,8 +1392,17 @@ function confirmOrder() {
         cart = [];
         updateCartBadge();
 
-        // Show success
-        showToast('Đặt hàng thành công!');
+        // Show success message based on order type
+        let successMessage = 'Đặt hàng thành công!';
+        if (orderType === 'delivery') {
+            successMessage = 'Đặt hàng thành công! Đơn hàng sẽ được giao đến bạn sớm.';
+        } else if (orderType === 'takeaway') {
+            successMessage = 'Đặt hàng thành công! Vui lòng đến quầy để nhận hàng.';
+        } else if (orderType === 'dinein') {
+            successMessage = 'Đặt hàng thành công! Vui lòng đến cửa hàng để dùng tại chỗ.';
+        }
+
+        showToast(successMessage);
 
         // Navigate to order history
         navigateToPage('order-history');

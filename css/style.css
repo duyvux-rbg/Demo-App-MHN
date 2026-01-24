@@ -784,6 +784,19 @@ section {
     border-radius: var(--border-radius);
 }
 
+/* Dịch chuyển vị trí các ảnh */
+.store-images img:nth-child(2) {
+    transform: translateY(-60px);
+}
+
+.store-images img:nth-child(3) {
+    transform: translateY(60px);
+}
+
+.store-images img:nth-child(4) {
+    transform: translateY(25px);
+}
+
 .map-container {
     margin: var(--spacing-xl) 0;
     border-radius: var(--border-radius);
@@ -1298,6 +1311,138 @@ section {
     font-size: var(--font-size-h1);
     color: var(--dark-brown);
     margin-bottom: var(--spacing-xl);
+}
+
+/* Order Type Selection */
+.order-type-section {
+    background-color: var(--white);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-bottom: var(--spacing-xl);
+}
+
+.order-type-section h3 {
+    font-size: var(--font-size-h3);
+    color: var(--dark-brown);
+    margin-bottom: var(--spacing-md);
+}
+
+.order-type-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.order-type-option {
+    position: relative;
+    cursor: pointer;
+}
+
+.order-type-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.order-type-option .option-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-lg);
+    border: 2px solid var(--beige);
+    border-radius: var(--border-radius);
+    background-color: var(--cream-white);
+    transition: all 0.3s;
+    text-align: center;
+}
+
+.order-type-option:hover .option-content {
+    border-color: var(--primary-orange);
+    background-color: var(--white);
+}
+
+.order-type-option input[type="radio"]:checked + .option-content {
+    border-color: var(--primary-orange);
+    background-color: var(--primary-orange);
+    color: var(--white);
+}
+
+.order-type-option .option-icon {
+    font-size: 32px;
+}
+
+.order-type-option input[type="radio"]:checked + .option-content .option-desc {
+    color: var(--white);
+}
+
+.order-type-option .option-title {
+    font-size: var(--font-size-h4);
+    font-weight: 600;
+    color: var(--dark-brown);
+    display: block;
+}
+
+.order-type-option input[type="radio"]:checked + .option-content .option-title {
+    color: var(--white);
+}
+
+.order-type-option .option-desc {
+    font-size: var(--font-size-small);
+    color: var(--gray-text);
+    display: block;
+}
+
+.order-type-description {
+    background-color: var(--cream-white);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-sm);
+    border-left: 4px solid var(--primary-orange);
+}
+
+.order-type-description p {
+    margin: 0;
+    color: var(--dark-brown);
+    font-size: var(--font-size-base);
+}
+
+/* Delivery Address Form */
+.delivery-address-form {
+    margin-top: var(--spacing-md);
+}
+
+.form-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: var(--dark-brown);
+    margin-bottom: var(--spacing-sm);
+    font-size: var(--font-size-base);
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--beige);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-base);
+    transition: all 0.3s;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary-orange);
+}
+
+.form-hint {
+    display: block;
+    margin-top: var(--spacing-xs);
+    font-size: var(--font-size-small);
+    color: var(--gray-text);
 }
 
 .delivery-info,
@@ -2568,8 +2713,30 @@ section {
         gap: var(--spacing-md);
     }
 
+    .order-type-options {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+
+    .order-type-option .option-content {
+        flex-direction: row;
+        justify-content: flex-start;
+        text-align: left;
+        padding: var(--spacing-md);
+    }
+
+    .order-type-option .option-icon {
+        font-size: 24px;
+    }
+
     .store-images {
         grid-template-columns: 1fr;
+    }
+
+    .store-images img:nth-child(2),
+    .store-images img:nth-child(3),
+    .store-images img:nth-child(4) {
+        transform: none;
     }
 
     .voucher-list {

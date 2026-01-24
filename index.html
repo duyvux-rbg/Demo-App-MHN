@@ -364,11 +364,77 @@
                 <div class="container">
                     <h1>Thanh toán</h1>
 
-                    <!-- Delivery Info -->
-                    <div class="delivery-info">
+                    <!-- Order Type Selection -->
+                    <div class="order-type-section">
+                        <h3>🛵 Phương thức nhận hàng</h3>
+                        <div class="order-type-options">
+                            <label class="order-type-option">
+                                <input type="radio" name="orderType" value="delivery" checked>
+                                <div class="option-content">
+                                    <span class="option-icon">🚚</span>
+                                    <div class="option-text">
+                                        <span class="option-title">Giao hàng</span>
+                                        <span class="option-desc">Giao hàng tận nơi</span>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="order-type-option">
+                                <input type="radio" name="orderType" value="takeaway">
+                                <div class="option-content">
+                                    <span class="option-icon">🥡</span>
+                                    <div class="option-text">
+                                        <span class="option-title">Mang đi</span>
+                                        <span class="option-desc">Nhận tại quầy và mang đi</span>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="order-type-option">
+                                <input type="radio" name="orderType" value="dinein">
+                                <div class="option-content">
+                                    <span class="option-icon">🍽️</span>
+                                    <div class="option-text">
+                                        <span class="option-title">Tại chỗ</span>
+                                        <span class="option-desc">Dùng tại cửa hàng</span>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+
+                        <!-- Order Type Description -->
+                        <div class="order-type-description" id="orderTypeDescription">
+                            <div class="type-desc" id="descDelivery">
+                                <p>📦 Đơn hàng sẽ được giao đến địa chỉ của bạn</p>
+                            </div>
+                            <div class="type-desc" id="descTakeaway" style="display: none;">
+                                <p>🏪 Bạn sẽ đến quầy nhận sản phẩm tại cửa hàng và mang đi</p>
+                                <p style="margin-top: 0.5rem; font-size: 14px; color: var(--gray-text);">📍 104 Mai Anh Tuấn, Đống Đa, Hà Nội</p>
+                            </div>
+                            <div class="type-desc" id="descDinein" style="display: none;">
+                                <p>☕ Bạn sẽ đến nhận sản phẩm tại cửa hàng và dùng tại chỗ</p>
+                                <p style="margin-top: 0.5rem; font-size: 14px; color: var(--gray-text);">📍 104 Mai Anh Tuấn, Đống Đa, Hà Nội</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delivery Info (Only for delivery) -->
+                    <div class="delivery-info" id="deliveryInfoSection">
                         <h3>📍 Địa chỉ giao hàng</h3>
-                        <div class="address-selected" id="addressSelected">
-                            <!-- Selected address will be inserted here by JS -->
+                        <div class="delivery-address-form">
+                            <div class="form-group">
+                                <label>Địa chỉ</label>
+                                <input type="text" id="deliveryAddress" placeholder="Nhập địa chỉ giao hàng" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label>Khoảng cách (km)</label>
+                                <input type="number" id="deliveryDistance" placeholder="Ví dụ: 2.5" class="form-input" step="0.1">
+                                <small class="form-hint">Phí giao hàng: 15,000đ/km</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Ghi chú giao hàng (tuỳ chọn)</label>
+                                <textarea id="deliveryNote" placeholder="Ghi chú cho tài xế..." class="form-input" rows="2"></textarea>
+                            </div>
                         </div>
                     </div>
 
@@ -376,7 +442,7 @@
                     <div class="payment-methods">
                         <h3>💳 Phương thức thanh toán</h3>
                         <div class="payment-options" id="paymentOptions">
-                            <label class="payment-option">
+                            <label class="payment-option" data-types="delivery,takeaway,dinein">
                                 <input type="radio" name="payment" value="card">
                                 <div class="option-info">
                                     <span class="option-title">Thẻ tín dụng/ghi nợ</span>
@@ -384,24 +450,32 @@
                                 </div>
                             </label>
 
-                            <label class="payment-option">
+                            <label class="payment-option" data-types="delivery,takeaway,dinein">
                                 <input type="radio" name="payment" value="momo">
                                 <div class="option-info">
                                     <span class="option-title">Ví MoMo</span>
                                 </div>
                             </label>
 
-                            <label class="payment-option">
+                            <label class="payment-option" data-types="delivery,takeaway,dinein">
                                 <input type="radio" name="payment" value="bank">
                                 <div class="option-info">
                                     <span class="option-title">Chuyển khoản ngân hàng</span>
                                 </div>
                             </label>
 
-                            <label class="payment-option">
+                            <label class="payment-option" data-types="delivery" checked>
                                 <input type="radio" name="payment" value="cod" checked>
                                 <div class="option-info">
                                     <span class="option-title">Thanh toán khi nhận hàng (COD)</span>
+                                </div>
+                            </label>
+
+                            <label class="payment-option" data-types="takeaway,dinein" style="display: none;">
+                                <input type="radio" name="payment" value="counter">
+                                <div class="option-info">
+                                    <span class="option-title">Thanh toán tại quầy</span>
+                                    <small>Thanh toán bằng tiền mặt hoặc chuyển khoản tại cửa hàng</small>
                                 </div>
                             </label>
                         </div>
