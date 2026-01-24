@@ -557,23 +557,23 @@ const vouchers = [
 const banners = [
     {
         id: 'bn001',
-        image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1200',
-        title: 'GIẢM 40% LY THỨ 2 + FREESHIP',
-        subtitle: 'Mã: XMAS25 - Áp dụng cho BST Party',
-        link: '/order?promo=XMAS25'
+        image: 'https://i.postimg.cc/65ZMB6FZ/517760509-725183770435843-2038087727935372204-n.jpg',
+        title: 'Giảm Ngay 50% - Mở App Quét ShopeePay',
+        subtitle: 'Quét mã QR tại cửa hàng để nhận ưu đãi',
+        link: '/rewards'
     },
     {
         id: 'bn002',
-        image: 'https://images.unsplash.com/photo-1582793988951-9aed5509eb97?w=1200',
-        title: 'MUA 1 TẶNG 1 YUZU/MATCHA',
-        subtitle: 'Áp dụng cho tất cả size - Thời gian có hạn',
-        link: '/order?category=matcha'
+        image: 'https://i.postimg.cc/PJQNMwPY/487081020-640369098917311-5893920963212496051-n-(1).jpg',
+        title: 'Mua 1 Tặng 1 - Seasonal Menu',
+        subtitle: 'Áp dụng cho menu theo mùa - Thời gian có hạn',
+        link: '/order'
     },
     {
         id: 'bn003',
-        image: 'https://images.unsplash.com/photo-1556881261-8e5a6ae6b4ad?w=1200',
-        title: 'GIẢM 50K KHI THANH TOÁN SHOPEEPAY',
-        subtitle: 'Quét mã QR tại cửa hàng để nhận ưu đãi',
+        image: 'https://i.postimg.cc/HxQLpy0K/487509468-642976588656562-4908033696147205523-n.jpg',
+        title: 'Tích Điểm Nhận Quà - Đăng Ký Ngay',
+        subtitle: 'Trở thành thành viên để nhận ưu đãi đặc biệt',
         link: '/rewards'
     }
 ];
@@ -582,30 +582,30 @@ const banners = [
 const promoCards = [
     {
         id: 'pc001',
-        image: 'https://images.unsplash.com/photo-1556881261-8e5a6ae6b4ad?w=600',
+        image: 'https://i.postimg.cc/65ZMB6FZ/517760509-725183770435843-2038087727935372204-n.jpg',
         badge: 'Cập nhật từ Nhà',
         badgeEn: 'New Update',
         title: 'Giảm Ngay 50% - Mở App Quét ShopeePay',
         titleEn: '50% OFF - Scan ShopeePay',
-        date: '21/01/2025'
+        date: '24/01/2025'
     },
     {
         id: 'pc002',
-        image: 'https://images.unsplash.com/photo-1582793988951-9aed5509eb97?w=600',
+        image: 'https://i.postimg.cc/PJQNMwPY/487081020-640369098917311-5893920963212496051-n-(1).jpg',
         badge: 'Khuyến Mãi Hot',
         badgeEn: 'Hot Deal',
-        title: 'Mua 1 Tặng 1 - Collection Matcha',
-        titleEn: 'Buy 1 Get 1 - Matcha Collection',
-        date: '20/01/2025'
+        title: 'Mua 1 Tặng 1 - Seasonal Menu',
+        titleEn: 'Buy 1 Get 1 - Seasonal Menu',
+        date: '24/01/2025'
     },
     {
         id: 'pc003',
-        image: 'https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?w=600',
+        image: 'https://i.postimg.cc/HxQLpy0K/487509468-642976588656562-4908033696147205523-n.jpg',
         badge: 'Thành Viên',
         badgeEn: 'Member',
         title: 'Tích Điểm Nhận Quà - Đăng Ký Ngay',
         titleEn: 'Earn Points Get Rewards - Join Now',
-        date: '19/01/2025'
+        date: '24/01/2025'
     }
 ];
 
