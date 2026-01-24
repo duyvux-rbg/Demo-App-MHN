@@ -29,6 +29,9 @@
                 <button class="btn-icon" id="btnSearch" title="Tìm kiếm">
                     <span>🔍</span>
                 </button>
+                <button class="btn-icon" id="btnWifi" title="Thông tin WiFi">
+                    <span>📶</span>
+                </button>
                 <button class="btn-icon" id="btnCart" title="Giỏ hàng">
                     <span>🛒</span>
                     <span class="cart-badge" id="cartBadge">0</span>
@@ -652,6 +655,33 @@
 
     <!-- Toast Notification -->
     <div class="toast" id="toast"></div>
+
+    <!-- WiFi Info Modal -->
+    <div class="modal" id="wifiModal" style="display: none;">
+        <div class="modal-overlay" onclick="closeWifiModal()"></div>
+        <div class="modal-content modal-wifi">
+            <button class="modal-close" onclick="closeWifiModal()">×</button>
+            <div class="modal-body">
+                <h2 style="text-align: center; margin-bottom: 2rem; color: var(--dark-brown);">📶 Thông tin WiFi</h2>
+                <div class="wifi-info-container">
+                    <div class="wifi-info-item">
+                        <label>Tên WiFi:</label>
+                        <div class="wifi-value">
+                            <span id="wifiName">Một Hà Nội 5G</span>
+                            <button class="btn-copy" onclick="copyToClipboard('wifiName')" title="Sao chép">📋</button>
+                        </div>
+                    </div>
+                    <div class="wifi-info-item">
+                        <label>Mật khẩu:</label>
+                        <div class="wifi-value">
+                            <span id="wifiPassword">104 Mai Anh Tuấn</span>
+                            <button class="btn-copy" onclick="copyToClipboard('wifiPassword')" title="Sao chép">📋</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="js/data.js"></script>

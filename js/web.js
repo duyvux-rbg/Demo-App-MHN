@@ -876,6 +876,11 @@ function initEventListeners() {
         navigateToPage('cart');
     });
 
+    // WiFi button
+    document.getElementById('btnWifi').addEventListener('click', () => {
+        openWifiModal();
+    });
+
     // User button
     document.getElementById('btnUser').addEventListener('click', () => {
         if (isLoggedIn) {
@@ -1341,3 +1346,31 @@ document.getElementById('homeSearchInput')?.addEventListener('input', (e) => {
         console.log('Searching for:', query);
     }
 });
+
+// ==================== WIFI MODAL ====================
+function openWifiModal() {
+    const modal = document.getElementById('wifiModal');
+    if (modal) {
+        modal.style.display = 'flex';
+    }
+}
+
+function closeWifiModal() {
+    const modal = document.getElementById('wifiModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+function copyToClipboard(elementId) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        const text = element.textContent;
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('Đã sao chép: ' + text);
+        }).catch(err => {
+            console.error('Copy failed:', err);
+            showToast('Không thể sao chép');
+        });
+    }
+}
