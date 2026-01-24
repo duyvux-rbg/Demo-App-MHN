@@ -707,11 +707,12 @@ section {
 }
 
 .category-dropdown {
-    padding: 10px 20px;
+    padding: 8px 14px;
     border-radius: var(--border-radius-sm);
     border: 2px solid var(--beige);
     background-color: var(--white);
     color: var(--dark-brown);
+    font-size: 14px;
     font-weight: 500;
     cursor: pointer;
 }
