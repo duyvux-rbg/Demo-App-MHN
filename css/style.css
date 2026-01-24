@@ -306,6 +306,13 @@ input, select, textarea {
     white-space: nowrap;
 }
 
+.tab-icon-img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    display: block;
+}
+
 /* ==================== BANNER CAROUSEL ==================== */
 .banner-section {
     padding: var(--spacing-xl) 0;
