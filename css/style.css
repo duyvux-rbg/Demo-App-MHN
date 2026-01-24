@@ -2428,6 +2428,26 @@ section {
     width: 90%;
 }
 
+.modal-header-with-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.modal-header-with-icon h2 {
+    margin: 0;
+    color: var(--dark-brown);
+    font-size: var(--font-size-h2);
+}
+
+.modal-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
 .wifi-info-container {
     display: flex;
     flex-direction: column;
