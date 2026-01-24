@@ -32,6 +32,9 @@
                 <button class="btn-icon" id="btnWifi" title="Thông tin WiFi">
                     <span>📶</span>
                 </button>
+                <button class="btn-icon" id="btnFloorMap" title="Sơ đồ tầng">
+                    <span>🏢</span>
+                </button>
                 <button class="btn-icon" id="btnCart" title="Giỏ hàng">
                     <span>🛒</span>
                     <span class="cart-badge" id="cartBadge">0</span>
@@ -206,6 +209,33 @@
                             allowfullscreen=""
                             loading="lazy">
                         </iframe>
+                    </div>
+
+                    <!-- Floor Maps Section -->
+                    <div class="floor-maps-section">
+                        <h2 style="text-align: center; margin-bottom: 2rem; color: var(--dark-brown);">🏢 Sơ đồ các tầng</h2>
+                        <div class="floor-grid">
+                            <div class="floor-card" onclick="openFloorMapModal(1)">
+                                <img src="images/Tầng 1 MHN.png" alt="Tầng 1">
+                                <div class="floor-card-title">Tầng 1</div>
+                                <p class="floor-card-desc">Khu vực để xe & Quầy thu ngân</p>
+                            </div>
+                            <div class="floor-card" onclick="openFloorMapModal(2)">
+                                <img src="images/Tầng 2 MHN.png" alt="Tầng 2">
+                                <div class="floor-card-title">Tầng 2</div>
+                                <p class="floor-card-desc">Open Space & Phòng pha chế</p>
+                            </div>
+                            <div class="floor-card" onclick="openFloorMapModal(3)">
+                                <img src="images/Tầng 3_ Study space.png" alt="Tầng 3">
+                                <div class="floor-card-title">Tầng 3</div>
+                                <p class="floor-card-desc">Study & Working Space</p>
+                            </div>
+                            <div class="floor-card" onclick="openFloorMapModal(4)">
+                                <img src="images/Tầng Thượng MHN.png" alt="Tầng Thượng">
+                                <div class="floor-card-title">Tầng Thượng</div>
+                                <p class="floor-card-desc">Rooftop</p>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Store List -->
@@ -677,6 +707,41 @@
                             <span id="wifiPassword">104 Mai Anh Tuấn</span>
                             <button class="btn-copy" onclick="copyToClipboard('wifiPassword')" title="Sao chép">📋</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floor Map Modal -->
+    <div class="modal" id="floorMapModal" style="display: none;">
+        <div class="modal-overlay" onclick="closeFloorMapModal()"></div>
+        <div class="modal-content modal-floor-map">
+            <button class="modal-close" onclick="closeFloorMapModal()">×</button>
+            <div class="modal-body">
+                <h2 style="text-align: center; margin-bottom: 2rem; color: var(--dark-brown);">🏢 Sơ đồ các tầng</h2>
+                <div class="floor-tabs">
+                    <button class="floor-tab active" onclick="showFloor(1)">Tầng 1</button>
+                    <button class="floor-tab" onclick="showFloor(2)">Tầng 2</button>
+                    <button class="floor-tab" onclick="showFloor(3)">Tầng 3</button>
+                    <button class="floor-tab" onclick="showFloor(4)">Tầng Thượng</button>
+                </div>
+                <div class="floor-maps">
+                    <div class="floor-map-item active" id="floor-1">
+                        <img src="images/Tầng 1 MHN.png" alt="Sơ đồ Tầng 1">
+                        <p class="floor-description">Tầng 1 - Khu vực để xe & Quầy thu ngân</p>
+                    </div>
+                    <div class="floor-map-item" id="floor-2">
+                        <img src="images/Tầng 2 MHN.png" alt="Sơ đồ Tầng 2">
+                        <p class="floor-description">Tầng 2 - Open Space & Phòng pha chế</p>
+                    </div>
+                    <div class="floor-map-item" id="floor-3">
+                        <img src="images/Tầng 3_ Study space.png" alt="Sơ đồ Tầng 3">
+                        <p class="floor-description">Tầng 3 - Study & Working Space</p>
+                    </div>
+                    <div class="floor-map-item" id="floor-4">
+                        <img src="images/Tầng Thượng MHN.png" alt="Sơ đồ Tầng Thượng">
+                        <p class="floor-description">Tầng Thượng - Rooftop</p>
                     </div>
                 </div>
             </div>

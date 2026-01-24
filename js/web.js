@@ -881,6 +881,11 @@ function initEventListeners() {
         openWifiModal();
     });
 
+    // Floor Map button
+    document.getElementById('btnFloorMap').addEventListener('click', () => {
+        openFloorMapModal(1);
+    });
+
     // User button
     document.getElementById('btnUser').addEventListener('click', () => {
         if (isLoggedIn) {
@@ -1372,5 +1377,40 @@ function copyToClipboard(elementId) {
             console.error('Copy failed:', err);
             showToast('Không thể sao chép');
         });
+    }
+}
+
+// ==================== FLOOR MAP MODAL ====================
+function openFloorMapModal(floorNumber = 1) {
+    const modal = document.getElementById('floorMapModal');
+    if (modal) {
+        modal.style.display = 'flex';
+        showFloor(floorNumber);
+    }
+}
+
+function closeFloorMapModal() {
+    const modal = document.getElementById('floorMapModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+function showFloor(floorNumber) {
+    // Remove active class from all tabs
+    const tabs = document.querySelectorAll('.floor-tab');
+    tabs.forEach(tab => tab.classList.remove('active'));
+
+    // Add active class to clicked tab
+    tabs[floorNumber - 1].classList.add('active');
+
+    // Hide all floor maps
+    const floorMaps = document.querySelectorAll('.floor-map-item');
+    floorMaps.forEach(map => map.classList.remove('active'));
+
+    // Show selected floor map
+    const selectedFloor = document.getElementById(`floor-${floorNumber}`);
+    if (selectedFloor) {
+        selectedFloor.classList.add('active');
     }
 }

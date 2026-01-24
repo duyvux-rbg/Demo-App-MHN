@@ -254,7 +254,8 @@ input, select, textarea {
 /* ==================== HERO SECTION ==================== */
 .hero-section {
     padding: var(--spacing-xl) 0;
-    background: linear-gradient(135deg, var(--primary-orange) 0%, var(--dark-brown) 100%);
+    background: url('../images/Group 1000002055.png') center/cover no-repeat;
+    background-color: var(--dark-brown);
     color: var(--white);
 }
 
@@ -2331,6 +2332,120 @@ section {
 
 .btn-copy:active {
     transform: scale(0.95);
+}
+
+/* ==================== FLOOR MAP MODAL ==================== */
+.modal-floor-map {
+    max-width: 600px;
+    width: 95%;
+}
+
+.floor-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.floor-tab {
+    padding: 10px 20px;
+    background-color: var(--cream-white);
+    color: var(--dark-brown);
+    border: 2px solid var(--beige);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.floor-tab:hover {
+    background-color: var(--beige);
+}
+
+.floor-tab.active {
+    background-color: var(--primary-orange);
+    color: var(--white);
+    border-color: var(--primary-orange);
+}
+
+.floor-maps {
+    position: relative;
+    min-height: 400px;
+}
+
+.floor-map-item {
+    display: none;
+    animation: fadeIn 0.3s;
+}
+
+.floor-map-item.active {
+    display: block;
+}
+
+.floor-map-item img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.floor-description {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: var(--font-size-h4);
+    color: var(--gray-text);
+    font-weight: 500;
+}
+
+/* ==================== FLOOR MAPS SECTION ==================== */
+.floor-maps-section {
+    margin: 3rem 0;
+    padding: 2rem 0;
+    background-color: var(--white);
+    border-radius: var(--border-radius-lg);
+}
+
+.floor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.floor-card {
+    background-color: var(--cream-white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: var(--box-shadow);
+}
+
+.floor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--box-shadow-lg);
+}
+
+.floor-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.floor-card-title {
+    padding: 1rem 1rem 0.5rem;
+    font-size: var(--font-size-h3);
+    font-weight: 600;
+    color: var(--dark-brown);
+    text-align: center;
+}
+
+.floor-card-desc {
+    padding: 0 1rem 1rem;
+    font-size: var(--font-size-small);
+    color: var(--gray-text);
+    text-align: center;
 }
 
 /* ==================== FOOTER ==================== */
