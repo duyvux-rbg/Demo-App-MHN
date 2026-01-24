@@ -734,18 +734,19 @@ section {
 
 .category-tabs {
     display: flex;
-    gap: var(--spacing-md);
+    gap: var(--spacing-sm);
     overflow-x: auto;
     padding-bottom: var(--spacing-sm);
 }
 
 .category-tab {
-    padding: 10px 20px;
-    border-radius: 25px;
+    padding: 8px 16px;
+    border-radius: 20px;
     background-color: var(--white);
     border: 2px solid var(--beige);
     color: var(--dark-brown);
     font-weight: 500;
+    font-size: 14px;
     white-space: nowrap;
     transition: all 0.3s;
 }
