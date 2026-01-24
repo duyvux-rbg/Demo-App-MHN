@@ -178,6 +178,12 @@ input, select, textarea {
     background-color: var(--beige);
 }
 
+.icon-img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
 .cart-badge {
     position: absolute;
     top: -5px;
@@ -2623,6 +2629,25 @@ section {
 .social-links {
     display: flex;
     gap: var(--spacing-md);
+}
+
+.social-icon {
+    display: block;
+    width: 40px;
+    height: 40px;
+    transition: all 0.3s;
+}
+
+.social-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+.social-icon:hover {
+    transform: translateY(-5px);
+    opacity: 0.8;
 }
 
 .footer-bottom {
