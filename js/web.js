@@ -936,6 +936,14 @@ function deleteAddress(index) {
 
 // ==================== EVENT LISTENERS ====================
 function initEventListeners() {
+    // Search button
+    const btnSearch = document.getElementById('btnSearch');
+    if (btnSearch) {
+        btnSearch.addEventListener('click', () => {
+            openSearchModal();
+        });
+    }
+
     // Cart button
     document.getElementById('btnCart').addEventListener('click', () => {
         navigateToPage('cart');
@@ -1526,11 +1534,167 @@ function hideLoading() {
 }
 
 // ==================== SEARCH ====================
+function openSearchModal() {
+    const modal = document.getElementById('searchModal');
+    if (modal) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+
+        // Focus on input
+        setTimeout(() => {
+            document.getElementById('searchModalInput')?.focus();
+        }, 100);
+
+        // Reset search
+        document.getElementById('searchModalInput').value = '';
+        document.getElementById('searchResults').innerHTML = '';
+        document.getElementById('searchSuggestions').style.display = 'block';
+    }
+}
+
+function closeSearchModal() {
+    const modal = document.getElementById('searchModal');
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+}
+
+function performSearch() {
+    const input = document.getElementById('searchModalInput');
+    const query = input.value.trim().toLowerCase();
+
+    if (query.length < 1) {
+        showToast('Vui lòng nhập từ khóa tìm kiếm');
+        return;
+    }
+
+    searchProducts(query);
+}
+
+function searchProducts(query) {
+    // Search through products
+    const results = products.filter(product => {
+        const nameMatch = product.name.toLowerCase().includes(query);
+        const nameEnMatch = product.nameEn?.toLowerCase().includes(query);
+        const descMatch = product.description?.toLowerCase().includes(query);
+        const categoryMatch = categories.find(c => c.id === product.category)?.name.toLowerCase().includes(query);
+
+        return nameMatch || nameEnMatch || descMatch || categoryMatch;
+    });
+
+    displaySearchResults(results, query);
+}
+
+function displaySearchResults(results, query) {
+    const container = document.getElementById('searchResults');
+    const suggestions = document.getElementById('searchSuggestions');
+
+    suggestions.style.display = 'none';
+
+    if (results.length === 0) {
+        container.innerHTML = `
+            <div class="search-no-results">
+                <div class="no-results-icon">🔍</div>
+                <h4>Không tìm thấy kết quả</h4>
+                <p>Không có sản phẩm nào phù hợp với "${query}"</p>
+                <p style="margin-top: 8px; font-size: 13px;">Thử tìm: Cà phê, Trà sữa, Matcha, Sinh tố...</p>
+            </div>
+        `;
+        return;
+    }
+
+    const resultsHtml = results.map(product => {
+        const category = categories.find(c => c.id === product.category);
+        return `
+            <div class="search-result-item" onclick="selectSearchResult(${JSON.stringify(product).replace(/"/g, '&quot;')})">
+                <img src="${product.image}" alt="${product.name}">
+                <div class="search-result-info">
+                    <div class="search-result-name">${highlightMatch(product.name, query)}</div>
+                    <div class="search-result-category">${category?.icon || ''} ${category?.name || ''}</div>
+                    <div class="search-result-price">${formatPrice(product.price)}</div>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    container.innerHTML = `
+        <div class="search-results-header">
+            <h3>Kết quả tìm kiếm</h3>
+            <span class="search-results-count">${results.length} sản phẩm</span>
+        </div>
+        <div class="search-results-grid">
+            ${resultsHtml}
+        </div>
+    `;
+}
+
+function highlightMatch(text, query) {
+    const regex = new RegExp(`(${query})`, 'gi');
+    return text.replace(regex, '<strong style="color: var(--primary-orange);">$1</strong>');
+}
+
+function selectSearchResult(product) {
+    closeSearchModal();
+
+    if (product.available) {
+        openProductModal(product);
+    } else {
+        showToast('Sản phẩm này hiện đang hết hàng');
+    }
+}
+
+// Home search input - live search
 document.getElementById('homeSearchInput')?.addEventListener('input', (e) => {
-    const query = e.target.value.toLowerCase();
+    const query = e.target.value.trim().toLowerCase();
     if (query.length >= 2) {
-        // TODO: Implement search functionality
-        console.log('Searching for:', query);
+        // Open search modal and perform search
+        openSearchModal();
+        document.getElementById('searchModalInput').value = e.target.value;
+        searchProducts(query);
+    }
+});
+
+// Home search input - enter key
+document.getElementById('homeSearchInput')?.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        const query = e.target.value.trim();
+        if (query.length >= 1) {
+            openSearchModal();
+            document.getElementById('searchModalInput').value = query;
+            searchProducts(query.toLowerCase());
+        }
+    }
+});
+
+// Home search button click
+document.querySelector('.search-btn')?.addEventListener('click', () => {
+    const input = document.getElementById('homeSearchInput');
+    const query = input.value.trim();
+    if (query.length >= 1) {
+        openSearchModal();
+        document.getElementById('searchModalInput').value = query;
+        searchProducts(query.toLowerCase());
+    } else {
+        openSearchModal();
+    }
+});
+
+// Search modal input - enter key
+document.getElementById('searchModalInput')?.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        performSearch();
+    }
+});
+
+// Search modal input - live search
+document.getElementById('searchModalInput')?.addEventListener('input', (e) => {
+    const query = e.target.value.trim().toLowerCase();
+    if (query.length >= 2) {
+        searchProducts(query);
+    } else if (query.length === 0) {
+        document.getElementById('searchResults').innerHTML = '';
+        document.getElementById('searchSuggestions').style.display = 'block';
     }
 });
 
