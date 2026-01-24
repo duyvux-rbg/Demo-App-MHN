@@ -46,6 +46,9 @@
                     <img src="images/Icon Buttion/Tài khoản.png" alt="Tài khoản" class="icon-img">
                 </button>
                 <button class="btn-language" id="btnLanguage">VI</button>
+                <button class="btn-icon btn-staff" id="btnStaff" title="Quản lý đơn hàng (Staff)">
+                    <span class="staff-icon">📋</span>
+                </button>
                 <button class="btn-hamburger" id="btnHamburger">
                     <span></span>
                     <span></span>
@@ -711,6 +714,79 @@
                     <p class="login-link">
                         Đã có tài khoản? <a href="#login">Đăng nhập</a>
                     </p>
+                </div>
+            </section>
+        </div>
+
+        <!-- STAFF PAGE (Order Management) -->
+        <div class="page" id="page-staff">
+            <section class="staff-page">
+                <div class="container">
+                    <div class="staff-header">
+                        <h1>Quản lý đơn hàng</h1>
+                        <div class="staff-actions">
+                            <button class="btn btn-secondary" onclick="refreshOrders()">🔄 Làm mới</button>
+                            <button class="btn btn-danger" onclick="clearAllOrders()">🗑️ Xóa tất cả</button>
+                        </div>
+                    </div>
+
+                    <!-- Order Stats -->
+                    <div class="order-stats">
+                        <div class="stat-card stat-total">
+                            <span class="stat-number" id="statTotal">0</span>
+                            <span class="stat-label">Tổng đơn</span>
+                        </div>
+                        <div class="stat-card stat-delivery">
+                            <span class="stat-number" id="statDelivery">0</span>
+                            <span class="stat-label">Giao hàng</span>
+                        </div>
+                        <div class="stat-card stat-takeaway">
+                            <span class="stat-number" id="statTakeaway">0</span>
+                            <span class="stat-label">Mang đi</span>
+                        </div>
+                        <div class="stat-card stat-dinein">
+                            <span class="stat-number" id="statDinein">0</span>
+                            <span class="stat-label">Tại chỗ</span>
+                        </div>
+                    </div>
+
+                    <!-- Order Filter Tabs -->
+                    <div class="staff-filter-tabs">
+                        <button class="filter-tab active" data-filter="all" onclick="filterStaffOrders('all')">Tất cả</button>
+                        <button class="filter-tab" data-filter="delivery" onclick="filterStaffOrders('delivery')">🚚 Giao hàng</button>
+                        <button class="filter-tab" data-filter="takeaway" onclick="filterStaffOrders('takeaway')">🛍️ Mang đi</button>
+                        <button class="filter-tab" data-filter="dinein" onclick="filterStaffOrders('dinein')">🍽️ Tại chỗ</button>
+                        <button class="filter-tab" data-filter="pending" onclick="filterStaffOrders('pending')">⏳ Chờ xử lý</button>
+                        <button class="filter-tab" data-filter="completed" onclick="filterStaffOrders('completed')">✅ Hoàn thành</button>
+                    </div>
+
+                    <!-- Orders Table -->
+                    <div class="orders-table-container">
+                        <table class="orders-table" id="staffOrdersTable">
+                            <thead>
+                                <tr>
+                                    <th>Mã đơn</th>
+                                    <th>Loại</th>
+                                    <th>Bàn/Địa chỉ</th>
+                                    <th>Đồ uống</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Thời gian</th>
+                                    <th>Trạng thái</th>
+                                    <th>Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody id="staffOrdersBody">
+                                <!-- Orders will be inserted here by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div class="staff-empty" id="staffEmpty" style="display: none;">
+                        <div class="empty-icon">📋</div>
+                        <h3>Chưa có đơn hàng nào</h3>
+                        <p>Các đơn hàng mới sẽ xuất hiện ở đây</p>
+                    </div>
                 </div>
             </section>
         </div>

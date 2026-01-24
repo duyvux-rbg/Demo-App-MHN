@@ -109,6 +109,9 @@ function loadPageContent(pageName) {
         case 'addresses':
             loadAddressesPage();
             break;
+        case 'staff':
+            loadStaffPage();
+            break;
     }
 }
 
@@ -965,6 +968,14 @@ function initEventListeners() {
         // TODO: Update all text based on language
     });
 
+    // Staff button
+    const btnStaff = document.getElementById('btnStaff');
+    if (btnStaff) {
+        btnStaff.addEventListener('click', () => {
+            navigateToPage('staff');
+        });
+    }
+
     // Modal overlay
     document.getElementById('modalOverlay').addEventListener('click', closeProductModal);
     document.getElementById('modalClose').addEventListener('click', closeProductModal);
@@ -1358,10 +1369,15 @@ function confirmOrder() {
         return;
     }
 
+    // Get delivery info
+    let deliveryAddress = '';
+    let deliveryDistance = 0;
+    let shippingFee = 0;
+
     // Validate delivery address if delivery type
     if (orderType === 'delivery') {
-        const deliveryAddress = document.getElementById('deliveryAddress')?.value;
-        const deliveryDistance = document.getElementById('deliveryDistance')?.value;
+        deliveryAddress = document.getElementById('deliveryAddress')?.value;
+        deliveryDistance = document.getElementById('deliveryDistance')?.value;
 
         if (!deliveryAddress || !deliveryDistance) {
             showToast('Vui lòng nhập đầy đủ địa chỉ và khoảng cách giao hàng');
@@ -1372,6 +1388,8 @@ function confirmOrder() {
             showToast('Khoảng cách phải lớn hơn 0');
             return;
         }
+
+        shippingFee = parseFloat(deliveryDistance) * 15000;
     }
 
     // Validate payment method
@@ -1384,6 +1402,40 @@ function confirmOrder() {
     // Show loading
     showLoading();
 
+    // Create order object
+    const subtotal = cart.reduce((sum, item) => sum + item.totalPrice, 0);
+    const order = {
+        id: generateOrderId(),
+        orderType: orderType,
+        items: cart.map(item => ({
+            name: item.product.name,
+            size: item.size.name,
+            sugar: item.sugar.name,
+            ice: item.ice.name,
+            toppings: item.toppings.map(t => t.name),
+            quantity: item.quantity,
+            price: item.price,
+            totalPrice: item.totalPrice
+        })),
+        subtotal: subtotal,
+        shippingFee: shippingFee,
+        total: subtotal + shippingFee,
+        paymentMethod: paymentMethod.value,
+        status: 'pending',
+        createdAt: new Date().toISOString(),
+        // Order type specific info
+        deliveryAddress: orderType === 'delivery' ? deliveryAddress : null,
+        deliveryDistance: orderType === 'delivery' ? parseFloat(deliveryDistance) : null,
+        tableNumber: orderType === 'dinein' ? (tableNumber ? tableNumber.code : 'N/A') : null,
+        tableFloor: orderType === 'dinein' ? (tableNumber ? tableNumber.floor : null) : null,
+        storeName: orderType === 'takeaway' ? (selectedStore ? selectedStore.name : 'N/A') : null,
+        customerName: currentUser ? currentUser.name : 'Khách',
+        customerPhone: currentUser ? currentUser.phone : ''
+    };
+
+    // Save order to localStorage
+    saveOrder(order);
+
     // Simulate order processing
     setTimeout(() => {
         hideLoading();
@@ -1395,11 +1447,11 @@ function confirmOrder() {
         // Show success message based on order type
         let successMessage = 'Đặt hàng thành công!';
         if (orderType === 'delivery') {
-            successMessage = 'Đặt hàng thành công! Đơn hàng sẽ được giao đến bạn sớm.';
+            successMessage = `Đặt hàng thành công! Mã đơn: ${order.id}. Đơn hàng sẽ được giao đến bạn sớm.`;
         } else if (orderType === 'takeaway') {
-            successMessage = 'Đặt hàng thành công! Vui lòng đến quầy để nhận hàng.';
+            successMessage = `Đặt hàng thành công! Mã đơn: ${order.id}. Vui lòng đến quầy để nhận hàng.`;
         } else if (orderType === 'dinein') {
-            successMessage = 'Đặt hàng thành công! Vui lòng đến cửa hàng để dùng tại chỗ.';
+            successMessage = `Đặt hàng thành công! Mã đơn: ${order.id}. Đồ uống sẽ được mang đến bàn của bạn.`;
         }
 
         showToast(successMessage);
@@ -1407,6 +1459,47 @@ function confirmOrder() {
         // Navigate to order history
         navigateToPage('order-history');
     }, 2000);
+}
+
+// Generate unique order ID
+function generateOrderId() {
+    const now = new Date();
+    const dateStr = now.toISOString().slice(0, 10).replace(/-/g, '');
+    const random = Math.random().toString(36).substring(2, 6).toUpperCase();
+    return `MHN${dateStr}-${random}`;
+}
+
+// Save order to localStorage
+function saveOrder(order) {
+    let orders = getStoredOrders();
+    orders.unshift(order); // Add new order at the beginning
+    localStorage.setItem('mhn_orders', JSON.stringify(orders));
+}
+
+// Get all stored orders
+function getStoredOrders() {
+    const stored = localStorage.getItem('mhn_orders');
+    return stored ? JSON.parse(stored) : [];
+}
+
+// Update order status
+function updateOrderStatus(orderId, newStatus) {
+    let orders = getStoredOrders();
+    const orderIndex = orders.findIndex(o => o.id === orderId);
+    if (orderIndex !== -1) {
+        orders[orderIndex].status = newStatus;
+        orders[orderIndex].updatedAt = new Date().toISOString();
+        localStorage.setItem('mhn_orders', JSON.stringify(orders));
+        return true;
+    }
+    return false;
+}
+
+// Delete order
+function deleteOrder(orderId) {
+    let orders = getStoredOrders();
+    orders = orders.filter(o => o.id !== orderId);
+    localStorage.setItem('mhn_orders', JSON.stringify(orders));
 }
 
 // ==================== UTILITIES ====================
@@ -1501,5 +1594,323 @@ function showFloor(floorNumber) {
     const selectedFloor = document.getElementById(`floor-${floorNumber}`);
     if (selectedFloor) {
         selectedFloor.classList.add('active');
+    }
+}
+
+// ==================== STAFF PAGE ====================
+let currentFilter = 'all';
+
+function loadStaffPage() {
+    updateOrderStats();
+    displayStaffOrders(currentFilter);
+}
+
+function updateOrderStats() {
+    const orders = getStoredOrders();
+
+    document.getElementById('statTotal').textContent = orders.length;
+    document.getElementById('statDelivery').textContent = orders.filter(o => o.orderType === 'delivery').length;
+    document.getElementById('statTakeaway').textContent = orders.filter(o => o.orderType === 'takeaway').length;
+    document.getElementById('statDinein').textContent = orders.filter(o => o.orderType === 'dinein').length;
+}
+
+function filterStaffOrders(filter) {
+    currentFilter = filter;
+
+    // Update active tab
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.filter === filter);
+    });
+
+    displayStaffOrders(filter);
+}
+
+function displayStaffOrders(filter = 'all') {
+    let orders = getStoredOrders();
+
+    // Apply filter
+    if (filter !== 'all') {
+        if (['delivery', 'takeaway', 'dinein'].includes(filter)) {
+            orders = orders.filter(o => o.orderType === filter);
+        } else if (filter === 'pending') {
+            orders = orders.filter(o => o.status === 'pending' || o.status === 'preparing');
+        } else if (filter === 'completed') {
+            orders = orders.filter(o => o.status === 'completed');
+        }
+    }
+
+    const tbody = document.getElementById('staffOrdersBody');
+    const emptyState = document.getElementById('staffEmpty');
+    const tableContainer = document.querySelector('.orders-table-container');
+
+    if (orders.length === 0) {
+        tableContainer.style.display = 'none';
+        emptyState.style.display = 'block';
+        return;
+    }
+
+    tableContainer.style.display = 'block';
+    emptyState.style.display = 'none';
+
+    tbody.innerHTML = orders.map(order => {
+        const orderTypeLabels = {
+            delivery: { icon: '🚚', text: 'Giao hàng' },
+            takeaway: { icon: '🛍️', text: 'Mang đi' },
+            dinein: { icon: '🍽️', text: 'Tại chỗ' }
+        };
+
+        const statusLabels = {
+            pending: { icon: '⏳', text: 'Chờ xử lý' },
+            preparing: { icon: '👨‍🍳', text: 'Đang pha' },
+            ready: { icon: '✨', text: 'Sẵn sàng' },
+            delivering: { icon: '🚚', text: 'Đang giao' },
+            completed: { icon: '✅', text: 'Hoàn thành' },
+            cancelled: { icon: '❌', text: 'Đã hủy' }
+        };
+
+        const typeInfo = orderTypeLabels[order.orderType] || { icon: '📦', text: 'Khác' };
+        const statusInfo = statusLabels[order.status] || { icon: '❓', text: 'Không rõ' };
+
+        // Location info based on order type
+        let locationHtml = '';
+        if (order.orderType === 'delivery') {
+            locationHtml = `
+                <div class="order-location">
+                    <div class="address-info" title="${order.deliveryAddress}">${order.deliveryAddress}</div>
+                    <small>${order.deliveryDistance} km</small>
+                </div>
+            `;
+        } else if (order.orderType === 'dinein') {
+            locationHtml = `
+                <div class="order-location">
+                    <div class="table-info">Bàn: ${order.tableNumber}</div>
+                    <small>Tầng ${order.tableFloor || 'N/A'}</small>
+                </div>
+            `;
+        } else if (order.orderType === 'takeaway') {
+            locationHtml = `
+                <div class="order-location">
+                    <div class="table-info">${order.storeName || 'Cửa hàng'}</div>
+                    <small>Lấy tại quầy</small>
+                </div>
+            `;
+        }
+
+        // Items list
+        const itemsHtml = order.items.map(item => `
+            <div class="order-item-row">
+                <span class="item-name">${item.name}</span>
+                <span class="item-qty">x${item.quantity}</span>
+            </div>
+        `).join('');
+
+        // Format time
+        const orderTime = new Date(order.createdAt);
+        const timeStr = orderTime.toLocaleString('vi-VN', {
+            day: '2-digit',
+            month: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+
+        // Action buttons based on status
+        let actionsHtml = '';
+        if (order.status === 'pending') {
+            actionsHtml = `
+                <button class="btn-complete" onclick="completeOrder('${order.id}')">✓ Xong</button>
+                <button class="btn-cancel-order" onclick="cancelOrder('${order.id}')">✗ Hủy</button>
+            `;
+        } else if (order.status === 'completed' || order.status === 'cancelled') {
+            actionsHtml = `
+                <button class="btn-view-detail" onclick="viewOrderDetail('${order.id}')">👁️ Xem</button>
+            `;
+        }
+
+        return `
+            <tr>
+                <td><span class="order-id">${order.id}</span></td>
+                <td><span class="order-type ${order.orderType}">${typeInfo.icon} ${typeInfo.text}</span></td>
+                <td>${locationHtml}</td>
+                <td><div class="order-items-list">${itemsHtml}</div></td>
+                <td><span class="order-total">${formatPrice(order.total)}</span></td>
+                <td><span class="order-time">${timeStr}</span></td>
+                <td><span class="order-status ${order.status}">${statusInfo.icon} ${statusInfo.text}</span></td>
+                <td><div class="order-actions">${actionsHtml}</div></td>
+            </tr>
+        `;
+    }).join('');
+}
+
+function completeOrder(orderId) {
+    if (confirm('Xác nhận hoàn thành đơn hàng này?')) {
+        if (updateOrderStatus(orderId, 'completed')) {
+            showToast('Đã hoàn thành đơn hàng!');
+            loadStaffPage();
+        }
+    }
+}
+
+function cancelOrder(orderId) {
+    if (confirm('Bạn có chắc muốn hủy đơn hàng này?')) {
+        if (updateOrderStatus(orderId, 'cancelled')) {
+            showToast('Đã hủy đơn hàng');
+            loadStaffPage();
+        }
+    }
+}
+
+function viewOrderDetail(orderId) {
+    const orders = getStoredOrders();
+    const order = orders.find(o => o.id === orderId);
+
+    if (!order) {
+        showToast('Không tìm thấy đơn hàng');
+        return;
+    }
+
+    const modal = document.getElementById('productModal');
+    const modalBody = document.getElementById('modalBody');
+
+    const orderTypeLabels = {
+        delivery: 'Giao hàng',
+        takeaway: 'Mang đi',
+        dinein: 'Tại chỗ'
+    };
+
+    const statusLabels = {
+        pending: 'Chờ xử lý',
+        preparing: 'Đang pha',
+        ready: 'Sẵn sàng',
+        delivering: 'Đang giao',
+        completed: 'Hoàn thành',
+        cancelled: 'Đã hủy'
+    };
+
+    const orderTime = new Date(order.createdAt).toLocaleString('vi-VN');
+
+    // Items detail
+    const itemsHtml = order.items.map(item => `
+        <div class="order-detail-item">
+            <div class="item-info">
+                <div class="item-name">${item.name} x${item.quantity}</div>
+                <div class="item-options">
+                    Size ${item.size}, ${item.sugar} đường, ${item.ice}
+                    ${item.toppings.length > 0 ? '<br>+ ' + item.toppings.join(', ') : ''}
+                </div>
+            </div>
+            <div class="item-price">${formatPrice(item.totalPrice)}</div>
+        </div>
+    `).join('');
+
+    // Location info
+    let locationInfo = '';
+    if (order.orderType === 'delivery') {
+        locationInfo = `
+            <div class="order-detail-row">
+                <span>Địa chỉ:</span>
+                <span>${order.deliveryAddress}</span>
+            </div>
+            <div class="order-detail-row">
+                <span>Khoảng cách:</span>
+                <span>${order.deliveryDistance} km</span>
+            </div>
+        `;
+    } else if (order.orderType === 'dinein') {
+        locationInfo = `
+            <div class="order-detail-row">
+                <span>Số bàn:</span>
+                <span>${order.tableNumber}</span>
+            </div>
+            <div class="order-detail-row">
+                <span>Tầng:</span>
+                <span>${order.tableFloor || 'N/A'}</span>
+            </div>
+        `;
+    } else if (order.orderType === 'takeaway') {
+        locationInfo = `
+            <div class="order-detail-row">
+                <span>Cửa hàng:</span>
+                <span>${order.storeName || 'N/A'}</span>
+            </div>
+        `;
+    }
+
+    modalBody.innerHTML = `
+        <div class="order-detail-modal">
+            <div class="order-detail-header">
+                <span class="order-detail-id">${order.id}</span>
+                <span class="order-status ${order.status}">${statusLabels[order.status]}</span>
+            </div>
+
+            <div class="order-detail-section">
+                <h4>Thông tin đơn hàng</h4>
+                <div class="order-detail-row">
+                    <span>Loại đơn:</span>
+                    <span>${orderTypeLabels[order.orderType]}</span>
+                </div>
+                <div class="order-detail-row">
+                    <span>Thời gian:</span>
+                    <span>${orderTime}</span>
+                </div>
+                <div class="order-detail-row">
+                    <span>Khách hàng:</span>
+                    <span>${order.customerName}</span>
+                </div>
+                ${order.customerPhone ? `
+                <div class="order-detail-row">
+                    <span>SĐT:</span>
+                    <span>${order.customerPhone}</span>
+                </div>
+                ` : ''}
+                ${locationInfo}
+            </div>
+
+            <div class="order-detail-section">
+                <h4>Đồ uống</h4>
+                <div class="order-detail-items">
+                    ${itemsHtml}
+                </div>
+            </div>
+
+            <div class="order-detail-section">
+                <h4>Thanh toán</h4>
+                <div class="order-detail-row">
+                    <span>Tạm tính:</span>
+                    <span>${formatPrice(order.subtotal)}</span>
+                </div>
+                ${order.shippingFee > 0 ? `
+                <div class="order-detail-row">
+                    <span>Phí giao hàng:</span>
+                    <span>${formatPrice(order.shippingFee)}</span>
+                </div>
+                ` : ''}
+                <div class="order-detail-row" style="font-weight: bold; font-size: 16px;">
+                    <span>Tổng cộng:</span>
+                    <span style="color: var(--primary-orange);">${formatPrice(order.total)}</span>
+                </div>
+                <div class="order-detail-row">
+                    <span>Thanh toán:</span>
+                    <span>${order.paymentMethod}</span>
+                </div>
+            </div>
+
+            <button class="btn btn-secondary" onclick="closeProductModal()" style="width: 100%; margin-top: 16px;">Đóng</button>
+        </div>
+    `;
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function refreshOrders() {
+    loadStaffPage();
+    showToast('Đã làm mới danh sách đơn hàng');
+}
+
+function clearAllOrders() {
+    if (confirm('Bạn có chắc muốn xóa TẤT CẢ đơn hàng? Hành động này không thể hoàn tác!')) {
+        localStorage.removeItem('mhn_orders');
+        loadStaffPage();
+        showToast('Đã xóa tất cả đơn hàng');
     }
 }
