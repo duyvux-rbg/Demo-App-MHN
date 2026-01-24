@@ -1564,9 +1564,46 @@ section {
     background-color: var(--cream-white);
 }
 
+/* Custom Payment Radio Button Styling */
 .payment-option input[type="radio"] {
-    width: 20px;
-    height: 20px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--beige);
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.payment-option input[type="radio"]:checked {
+    border-color: var(--primary-orange);
+    background-color: var(--primary-orange);
+}
+
+.payment-option input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.payment-option input[type="radio"]:hover {
+    border-color: var(--primary-orange);
+}
+
+/* Selected payment option styling */
+.payment-option:has(input:checked) {
+    border-color: var(--primary-orange);
+    background-color: rgba(232, 119, 34, 0.1);
 }
 
 .option-info {
@@ -2214,13 +2251,15 @@ section {
 }
 
 .option-group label {
-    display: block;
+    display: flex;
+    align-items: center;
     padding: var(--spacing-md);
     border-radius: var(--border-radius-sm);
     border: 2px solid var(--beige);
     margin-bottom: var(--spacing-sm);
     cursor: pointer;
     transition: all 0.3s;
+    min-height: 44px; /* Touch-friendly height */
 }
 
 .option-group label:hover {
@@ -2228,10 +2267,88 @@ section {
     background-color: var(--cream-white);
 }
 
-.option-group input[type="radio"],
-.option-group input[type="checkbox"] {
+/* Custom Radio Button Styling */
+.option-group input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--beige);
+    border-radius: 50%;
     margin-right: var(--spacing-sm);
+    cursor: pointer;
+    position: relative;
+    vertical-align: middle;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
 }
+
+.option-group input[type="radio"]:checked {
+    border-color: var(--primary-orange);
+    background-color: var(--primary-orange);
+}
+
+.option-group input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.option-group input[type="radio"]:hover {
+    border-color: var(--primary-orange);
+}
+
+/* Custom Checkbox Styling */
+.option-group input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--beige);
+    border-radius: 4px;
+    margin-right: var(--spacing-sm);
+    cursor: pointer;
+    position: relative;
+    vertical-align: middle;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.option-group input[type="checkbox"]:checked {
+    border-color: var(--primary-orange);
+    background-color: var(--primary-orange);
+}
+
+.option-group input[type="checkbox"]:checked::after {
+    content: '\2713';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.option-group input[type="checkbox"]:hover {
+    border-color: var(--primary-orange);
+}
+
+/* Selected option label styling */
+.option-group label:has(input:checked) {
+    border-color: var(--primary-orange);
+    background-color: rgba(232, 119, 34, 0.1);
+}
+
 
 .quantity-selector {
     display: flex;

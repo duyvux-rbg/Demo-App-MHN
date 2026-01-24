@@ -583,11 +583,11 @@ const promoCards = [
     {
         id: 'pc001',
         image: 'https://i.postimg.cc/65ZMB6FZ/517760509-725183770435843-2038087727935372204-n.jpg',
-        badge: 'Cập nhật từ Nhà',
+        badge: 'Mã giảm giá mới',
         badgeEn: 'New Update',
         title: 'Giảm Ngay 50% - Mở App Quét ShopeePay',
         titleEn: '50% OFF - Scan ShopeePay',
-        date: '24/01/2025'
+        date: '20/01/2025'
     },
     {
         id: 'pc002',
@@ -596,7 +596,7 @@ const promoCards = [
         badgeEn: 'Hot Deal',
         title: 'Mua 1 Tặng 1 - Seasonal Menu',
         titleEn: 'Buy 1 Get 1 - Seasonal Menu',
-        date: '24/01/2025'
+        date: '23/01/2025'
     },
     {
         id: 'pc003',
