@@ -784,19 +784,6 @@ section {
     border-radius: var(--border-radius);
 }
 
-/* Dịch chuyển vị trí các ảnh */
-.store-images img:nth-child(2) {
-    transform: translateY(-60px);
-}
-
-.store-images img:nth-child(3) {
-    transform: translateY(60px);
-}
-
-.store-images img:nth-child(4) {
-    transform: translateY(25px);
-}
-
 .map-container {
     margin: var(--spacing-xl) 0;
     border-radius: var(--border-radius);
@@ -1371,6 +1358,13 @@ section {
 
 .order-type-option .option-icon {
     font-size: 32px;
+}
+
+.order-type-icon-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    display: block;
 }
 
 .order-type-option input[type="radio"]:checked + .option-content .option-desc {
@@ -2729,14 +2723,13 @@ section {
         font-size: 24px;
     }
 
-    .store-images {
-        grid-template-columns: 1fr;
+    .order-type-icon-img {
+        width: 28px;
+        height: 28px;
     }
 
-    .store-images img:nth-child(2),
-    .store-images img:nth-child(3),
-    .store-images img:nth-child(4) {
-        transform: none;
+    .store-images {
+        grid-template-columns: 1fr;
     }
 
     .voucher-list {
