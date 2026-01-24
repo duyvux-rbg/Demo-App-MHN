@@ -1401,8 +1401,14 @@ section {
 }
 
 .btn-primary {
+    padding: 12px 24px;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    transition: all 0.3s;
     background-color: var(--primary-orange);
     color: var(--white);
+    border: none;
+    cursor: pointer;
 }
 
 .btn-primary:hover {
@@ -1410,8 +1416,14 @@ section {
 }
 
 .btn-secondary {
+    padding: 12px 24px;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    transition: all 0.3s;
     background-color: var(--beige);
     color: var(--dark-brown);
+    border: none;
+    cursor: pointer;
 }
 
 .btn-secondary:hover {
@@ -2052,8 +2064,14 @@ section {
 }
 
 .btn-cancel {
+    padding: 12px 24px;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    transition: all 0.3s;
     background-color: var(--beige);
     color: var(--dark-brown);
+    border: none;
+    cursor: pointer;
 }
 
 .btn-cancel:hover {
