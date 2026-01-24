@@ -571,7 +571,7 @@ const banners = [
     },
     {
         id: 'bn003',
-        image: 'https://i.postimg.cc/HxQLpy0K/487509468-642976588656562-4908033696147205523-n.jpg',
+        image: 'https://i.postimg.cc/tgvcYSk3/469504890-560784770209078-4740887756172172189-n.jpg',
         title: 'Tích Điểm Nhận Quà - Đăng Ký Ngay',
         subtitle: 'Trở thành thành viên để nhận ưu đãi đặc biệt',
         link: '/rewards'
@@ -600,7 +600,7 @@ const promoCards = [
     },
     {
         id: 'pc003',
-        image: 'https://i.postimg.cc/HxQLpy0K/487509468-642976588656562-4908033696147205523-n.jpg',
+        image: 'https://i.postimg.cc/tgvcYSk3/469504890-560784770209078-4740887756172172189-n.jpg',
         badge: 'Thành Viên',
         badgeEn: 'Member',
         title: 'Tích Điểm Nhận Quà - Đăng Ký Ngay',
