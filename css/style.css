@@ -4033,3 +4033,522 @@ section {
         height: 20px;
     }
 }
+
+/* ==================== ORDER TRACKING ==================== */
+.order-history-page h1 {
+    color: var(--dark-brown);
+    margin-bottom: var(--spacing-lg);
+}
+
+.order-tabs {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-xl);
+    flex-wrap: wrap;
+}
+
+.order-tab {
+    padding: 10px 20px;
+    border: 2px solid var(--beige);
+    border-radius: var(--border-radius);
+    background-color: var(--white);
+    color: var(--dark-brown);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.order-tab:hover {
+    border-color: var(--primary-orange);
+}
+
+.order-tab.active {
+    background-color: var(--primary-orange);
+    border-color: var(--primary-orange);
+    color: var(--white);
+}
+
+/* Active Order Card */
+.active-orders-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.active-order-card {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    border-left: 4px solid var(--primary-orange);
+}
+
+.order-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+.order-card-info h3 {
+    color: var(--dark-brown);
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+.order-card-info .order-id-text {
+    font-family: monospace;
+    color: var(--primary-orange);
+    font-weight: 600;
+}
+
+.order-card-info .order-type-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.order-type-badge.delivery {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.order-type-badge.takeaway {
+    background-color: #fff3e0;
+    color: #e65100;
+}
+
+.order-type-badge.dinein {
+    background-color: #e8f5e9;
+    color: #388e3c;
+}
+
+.order-time-info {
+    text-align: right;
+}
+
+.order-time-info .time-label {
+    font-size: 12px;
+    color: var(--gray-text);
+}
+
+.order-time-info .time-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-orange);
+}
+
+.order-time-info .time-unit {
+    font-size: 14px;
+    color: var(--gray-text);
+}
+
+/* Progress Timeline */
+.order-progress {
+    margin-bottom: var(--spacing-lg);
+}
+
+.progress-timeline {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: var(--spacing-md);
+}
+
+.progress-timeline::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: var(--beige);
+    z-index: 1;
+}
+
+.progress-bar-fill {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    height: 4px;
+    background-color: var(--primary-orange);
+    z-index: 2;
+    transition: width 0.5s ease;
+}
+
+.progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 3;
+    flex: 1;
+}
+
+.step-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--beige);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-bottom: 8px;
+    transition: all 0.3s;
+}
+
+.progress-step.completed .step-icon {
+    background-color: var(--primary-orange);
+    color: white;
+}
+
+.progress-step.active .step-icon {
+    background-color: var(--primary-orange);
+    color: white;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(232, 119, 34, 0.4);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 10px rgba(232, 119, 34, 0);
+    }
+}
+
+.step-label {
+    font-size: 12px;
+    color: var(--gray-text);
+    text-align: center;
+    max-width: 80px;
+}
+
+.progress-step.completed .step-label,
+.progress-step.active .step-label {
+    color: var(--dark-brown);
+    font-weight: 600;
+}
+
+.progress-percentage {
+    text-align: center;
+    margin-top: var(--spacing-md);
+}
+
+.percentage-bar {
+    height: 8px;
+    background-color: var(--beige);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.percentage-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-orange), #f5a623);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+.percentage-text {
+    font-size: 14px;
+    color: var(--gray-text);
+}
+
+.percentage-text strong {
+    color: var(--primary-orange);
+    font-size: 18px;
+}
+
+/* Order Items in Card */
+.order-items-section {
+    background-color: var(--cream-white);
+    border-radius: var(--border-radius-sm);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.order-items-section h4 {
+    color: var(--dark-brown);
+    font-size: 14px;
+    margin-bottom: var(--spacing-md);
+    text-transform: uppercase;
+}
+
+.order-item-detail {
+    display: flex;
+    gap: var(--spacing-md);
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px dashed var(--beige);
+}
+
+.order-item-detail:last-child {
+    border-bottom: none;
+}
+
+.item-image {
+    width: 50px;
+    height: 50px;
+    border-radius: var(--border-radius-sm);
+    object-fit: cover;
+}
+
+.item-details {
+    flex: 1;
+}
+
+.item-details .item-name {
+    font-weight: 600;
+    color: var(--dark-brown);
+    margin-bottom: 4px;
+}
+
+.item-details .item-customization {
+    font-size: 12px;
+    color: var(--gray-text);
+    line-height: 1.4;
+}
+
+.item-details .item-customization span {
+    display: inline-block;
+    background-color: var(--white);
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin: 2px 4px 2px 0;
+}
+
+.item-details .item-toppings {
+    font-size: 12px;
+    color: var(--primary-orange);
+    margin-top: 4px;
+}
+
+.item-qty-price {
+    text-align: right;
+}
+
+.item-qty-price .qty {
+    font-weight: 600;
+    color: var(--dark-brown);
+}
+
+.item-qty-price .price {
+    font-weight: 700;
+    color: var(--primary-orange);
+}
+
+/* Order Summary in Card */
+.order-card-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--spacing-md);
+    border-top: 2px solid var(--beige);
+}
+
+.order-total-info {
+    font-size: 14px;
+    color: var(--gray-text);
+}
+
+.order-total-info .total-amount {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary-orange);
+}
+
+.order-card-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+/* Past Order Card (Simpler) */
+.past-order-card {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.past-order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.past-order-id {
+    font-family: monospace;
+    font-weight: 600;
+    color: var(--primary-orange);
+}
+
+.past-order-status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.past-order-status.completed {
+    background-color: #e8f5e9;
+    color: #388e3c;
+}
+
+.past-order-status.cancelled {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.past-order-items {
+    font-size: 14px;
+    color: var(--gray-text);
+    margin-bottom: var(--spacing-sm);
+}
+
+.past-order-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+.past-order-date {
+    color: var(--gray-text);
+}
+
+.past-order-total {
+    font-weight: 700;
+    color: var(--dark-brown);
+}
+
+/* Responsive Order Tracking */
+@media (max-width: 768px) {
+    .order-card-header {
+        flex-direction: column;
+    }
+
+    .order-time-info {
+        text-align: left;
+    }
+
+    .progress-timeline {
+        flex-wrap: wrap;
+        gap: var(--spacing-sm);
+    }
+
+    .progress-timeline::before,
+    .progress-bar-fill {
+        display: none;
+    }
+
+    .progress-step {
+        flex-direction: row;
+        gap: var(--spacing-sm);
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .step-icon {
+        margin-bottom: 0;
+    }
+
+    .step-label {
+        max-width: none;
+        text-align: left;
+    }
+
+    .order-item-detail {
+        flex-wrap: wrap;
+    }
+
+    .item-qty-price {
+        width: 100%;
+        text-align: left;
+        margin-top: var(--spacing-sm);
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 480px) {
+    .order-tabs {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: var(--spacing-sm);
+    }
+
+    .order-tab {
+        white-space: nowrap;
+        flex-shrink: 0;
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+
+    .order-card-summary {
+        flex-direction: column;
+        gap: var(--spacing-md);
+        text-align: center;
+    }
+}
+
+/* Staff Order Item Details */
+.order-item-row-detail {
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--beige);
+}
+
+.order-item-row-detail:last-child {
+    border-bottom: none;
+}
+
+.item-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.item-main .item-name {
+    font-weight: 600;
+    color: var(--dark-brown);
+    font-size: 13px;
+}
+
+.item-main .item-qty {
+    font-weight: 700;
+    color: var(--primary-orange);
+    font-size: 13px;
+}
+
+.item-custom-detail {
+    font-size: 11px;
+    color: var(--gray-text);
+    background-color: var(--cream-white);
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-top: 4px;
+}
+
+.item-topping-detail {
+    font-size: 11px;
+    color: var(--primary-orange);
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+/* Wider items column in staff table */
+.orders-table .order-items-list {
+    max-width: 250px;
+    min-width: 180px;
+}

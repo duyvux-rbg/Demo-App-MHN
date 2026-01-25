@@ -513,21 +513,24 @@
         <div class="page" id="page-order-history">
             <section class="order-history-page">
                 <div class="container">
-                    <h1>Lịch sử đơn hàng</h1>
+                    <h1>Đơn hàng của bạn</h1>
 
                     <!-- Order Status Tabs -->
                     <div class="order-tabs">
-                        <button class="order-tab active" data-status="all">Tất cả</button>
-                        <button class="order-tab" data-status="pending">Chờ xác nhận</button>
-                        <button class="order-tab" data-status="preparing">Đang chuẩn bị</button>
-                        <button class="order-tab" data-status="delivering">Đang giao</button>
-                        <button class="order-tab" data-status="completed">Hoàn thành</button>
-                        <button class="order-tab" data-status="cancelled">Đã hủy</button>
+                        <button class="order-tab active" data-status="all" onclick="filterCustomerOrders('all')">Tất cả</button>
+                        <button class="order-tab" data-status="active" onclick="filterCustomerOrders('active')">Đang xử lý</button>
+                        <button class="order-tab" data-status="completed" onclick="filterCustomerOrders('completed')">Hoàn thành</button>
+                        <button class="order-tab" data-status="cancelled" onclick="filterCustomerOrders('cancelled')">Đã hủy</button>
+                    </div>
+
+                    <!-- Active Orders Section -->
+                    <div class="active-orders-section" id="activeOrdersSection">
+                        <!-- Active orders with progress will be shown here -->
                     </div>
 
                     <!-- Order List -->
                     <div class="order-list" id="orderList">
-                        <!-- Orders will be inserted here by JS -->
+                        <!-- Past orders will be inserted here by JS -->
                     </div>
 
                     <div class="order-empty" id="orderEmpty" style="display: none;">

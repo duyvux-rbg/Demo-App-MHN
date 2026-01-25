@@ -863,21 +863,292 @@ function exchangeReward(rewardId) {
 }
 
 // ==================== ORDER HISTORY ====================
+let customerOrderFilter = 'all';
+
 function loadOrderHistory() {
+    const orders = getStoredOrders();
+    const activeOrdersSection = document.getElementById('activeOrdersSection');
     const orderList = document.getElementById('orderList');
     const orderEmpty = document.getElementById('orderEmpty');
 
-    if (!currentUser || !currentUser.orderHistory || currentUser.orderHistory.length === 0) {
-        orderList.style.display = 'none';
+    if (orders.length === 0) {
+        activeOrdersSection.innerHTML = '';
+        orderList.innerHTML = '';
         orderEmpty.style.display = 'block';
         return;
     }
 
-    orderList.style.display = 'block';
     orderEmpty.style.display = 'none';
+    displayCustomerOrders(customerOrderFilter);
+}
 
-    // TODO: Load actual order history
-    orderList.innerHTML = '<p style="text-align: center; padding: 2rem;">Chưa có đơn hàng nào</p>';
+function filterCustomerOrders(filter) {
+    customerOrderFilter = filter;
+
+    // Update active tab
+    document.querySelectorAll('.order-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.status === filter);
+    });
+
+    displayCustomerOrders(filter);
+}
+
+function displayCustomerOrders(filter = 'all') {
+    let orders = getStoredOrders();
+    const activeOrdersSection = document.getElementById('activeOrdersSection');
+    const orderList = document.getElementById('orderList');
+
+    // Filter orders
+    let activeOrders = [];
+    let pastOrders = [];
+
+    orders.forEach(order => {
+        if (['pending', 'preparing', 'ready', 'delivering'].includes(order.status)) {
+            activeOrders.push(order);
+        } else {
+            pastOrders.push(order);
+        }
+    });
+
+    // Apply filter
+    if (filter === 'active') {
+        pastOrders = [];
+    } else if (filter === 'completed') {
+        activeOrders = [];
+        pastOrders = pastOrders.filter(o => o.status === 'completed');
+    } else if (filter === 'cancelled') {
+        activeOrders = [];
+        pastOrders = pastOrders.filter(o => o.status === 'cancelled');
+    }
+
+    // Display active orders with progress
+    if (activeOrders.length > 0) {
+        activeOrdersSection.innerHTML = `
+            <h2 style="color: var(--dark-brown); margin-bottom: 16px;">Đơn hàng đang xử lý</h2>
+            ${activeOrders.map(order => createActiveOrderCard(order)).join('')}
+        `;
+    } else {
+        activeOrdersSection.innerHTML = '';
+    }
+
+    // Display past orders
+    if (pastOrders.length > 0) {
+        orderList.innerHTML = `
+            <h2 style="color: var(--dark-brown); margin-bottom: 16px; margin-top: 24px;">Lịch sử đơn hàng</h2>
+            ${pastOrders.map(order => createPastOrderCard(order)).join('')}
+        `;
+    } else if (filter !== 'active') {
+        orderList.innerHTML = activeOrders.length > 0 ? '' : '<p style="text-align: center; padding: 2rem; color: var(--gray-text);">Không có đơn hàng nào</p>';
+    } else {
+        orderList.innerHTML = '';
+    }
+}
+
+function createActiveOrderCard(order) {
+    const orderTypeLabels = {
+        delivery: { icon: '🚚', text: 'Giao hàng', color: 'delivery' },
+        takeaway: { icon: '🛍️', text: 'Mang đi', color: 'takeaway' },
+        dinein: { icon: '🍽️', text: 'Tại chỗ', color: 'dinein' }
+    };
+
+    const typeInfo = orderTypeLabels[order.orderType] || { icon: '📦', text: 'Khác', color: '' };
+
+    // Calculate progress
+    const progressInfo = calculateOrderProgress(order);
+
+    // Calculate estimated time
+    const estimatedTime = calculateEstimatedTime(order);
+
+    // Create items HTML with details
+    const itemsHtml = order.items.map(item => `
+        <div class="order-item-detail">
+            <div class="item-details">
+                <div class="item-name">${item.name}</div>
+                <div class="item-customization">
+                    <span>Size ${item.size}</span>
+                    <span>${item.sugar} đường</span>
+                    <span>${item.ice}</span>
+                </div>
+                ${item.toppings && item.toppings.length > 0 ? `
+                    <div class="item-toppings">+ ${item.toppings.join(', ')}</div>
+                ` : ''}
+            </div>
+            <div class="item-qty-price">
+                <div class="qty">x${item.quantity}</div>
+                <div class="price">${formatPrice(item.totalPrice)}</div>
+            </div>
+        </div>
+    `).join('');
+
+    return `
+        <div class="active-order-card">
+            <div class="order-card-header">
+                <div class="order-card-info">
+                    <h3>Đơn hàng của bạn</h3>
+                    <div class="order-id-text">${order.id}</div>
+                    <div class="order-type-badge ${typeInfo.color}">${typeInfo.icon} ${typeInfo.text}</div>
+                </div>
+                <div class="order-time-info">
+                    <div class="time-label">Thời gian ước tính</div>
+                    <div class="time-value">${estimatedTime.minutes}</div>
+                    <div class="time-unit">phút</div>
+                </div>
+            </div>
+
+            <div class="order-progress">
+                <div class="progress-timeline">
+                    <div class="progress-bar-fill" style="width: ${progressInfo.percentage}%"></div>
+                    ${createProgressSteps(order, progressInfo)}
+                </div>
+                <div class="progress-percentage">
+                    <div class="percentage-bar">
+                        <div class="percentage-fill" style="width: ${progressInfo.percentage}%"></div>
+                    </div>
+                    <div class="percentage-text">
+                        Hoàn thành <strong>${progressInfo.percentage}%</strong> - ${progressInfo.statusText}
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-items-section">
+                <h4>Chi tiết đồ uống (${order.items.reduce((sum, i) => sum + i.quantity, 0)} món)</h4>
+                ${itemsHtml}
+            </div>
+
+            <div class="order-card-summary">
+                <div class="order-total-info">
+                    Tổng cộng: <span class="total-amount">${formatPrice(order.total)}</span>
+                    ${order.shippingFee > 0 ? `<br><small>(Đã bao gồm phí giao hàng ${formatPrice(order.shippingFee)})</small>` : ''}
+                </div>
+                <div class="order-card-actions">
+                    <button class="btn btn-secondary" onclick="viewOrderDetail('${order.id}')">Chi tiết</button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function createProgressSteps(order, progressInfo) {
+    const steps = getProgressSteps(order.orderType);
+
+    return steps.map((step, index) => {
+        let stepClass = '';
+        if (index < progressInfo.currentStep) {
+            stepClass = 'completed';
+        } else if (index === progressInfo.currentStep) {
+            stepClass = 'active';
+        }
+
+        return `
+            <div class="progress-step ${stepClass}">
+                <div class="step-icon">${step.icon}</div>
+                <div class="step-label">${step.label}</div>
+            </div>
+        `;
+    }).join('');
+}
+
+function getProgressSteps(orderType) {
+    if (orderType === 'delivery') {
+        return [
+            { icon: '📝', label: 'Đã nhận đơn' },
+            { icon: '👨‍🍳', label: 'Đang pha chế' },
+            { icon: '✅', label: 'Hoàn thành' },
+            { icon: '🚚', label: 'Đang giao' }
+        ];
+    } else if (orderType === 'takeaway') {
+        return [
+            { icon: '📝', label: 'Đã nhận đơn' },
+            { icon: '👨‍🍳', label: 'Đang pha chế' },
+            { icon: '✅', label: 'Sẵn sàng' },
+            { icon: '🛍️', label: 'Lấy hàng' }
+        ];
+    } else {
+        return [
+            { icon: '📝', label: 'Đã nhận đơn' },
+            { icon: '👨‍🍳', label: 'Đang pha chế' },
+            { icon: '✅', label: 'Hoàn thành' },
+            { icon: '🍽️', label: 'Phục vụ' }
+        ];
+    }
+}
+
+function calculateOrderProgress(order) {
+    const statusProgress = {
+        pending: { currentStep: 0, percentage: 10, statusText: 'Đã nhận đơn, đang chờ xử lý' },
+        preparing: { currentStep: 1, percentage: 50, statusText: 'Đang pha chế đồ uống' },
+        ready: { currentStep: 2, percentage: 80, statusText: 'Đồ uống đã sẵn sàng' },
+        delivering: { currentStep: 3, percentage: 90, statusText: 'Đang giao hàng đến bạn' },
+        completed: { currentStep: 4, percentage: 100, statusText: 'Đã hoàn thành' },
+        cancelled: { currentStep: 0, percentage: 0, statusText: 'Đã hủy' }
+    };
+
+    return statusProgress[order.status] || { currentStep: 0, percentage: 0, statusText: 'Không xác định' };
+}
+
+function calculateEstimatedTime(order) {
+    // Calculate based on number of items and order type
+    const itemCount = order.items.reduce((sum, i) => sum + i.quantity, 0);
+    let baseTime = 5; // Base time 5 minutes
+
+    // Add time per item (2 min per item)
+    baseTime += itemCount * 2;
+
+    // Add time for delivery
+    if (order.orderType === 'delivery' && order.deliveryDistance) {
+        baseTime += Math.ceil(order.deliveryDistance * 3); // 3 min per km
+    }
+
+    // Adjust based on status
+    const statusAdjustment = {
+        pending: 1,
+        preparing: 0.7,
+        ready: 0.2,
+        delivering: 0.3,
+        completed: 0
+    };
+
+    const adjustedTime = Math.ceil(baseTime * (statusAdjustment[order.status] || 1));
+
+    return {
+        minutes: Math.max(adjustedTime, 1),
+        text: adjustedTime <= 5 ? 'Sắp xong' : `Khoảng ${adjustedTime} phút`
+    };
+}
+
+function createPastOrderCard(order) {
+    const statusLabels = {
+        completed: { text: 'Hoàn thành', class: 'completed' },
+        cancelled: { text: 'Đã hủy', class: 'cancelled' }
+    };
+
+    const statusInfo = statusLabels[order.status] || { text: 'Khác', class: '' };
+
+    const itemsSummary = order.items.map(item =>
+        `${item.name} x${item.quantity}`
+    ).join(', ');
+
+    const orderTime = new Date(order.createdAt).toLocaleString('vi-VN', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+
+    return `
+        <div class="past-order-card" onclick="viewOrderDetail('${order.id}')">
+            <div class="past-order-header">
+                <span class="past-order-id">${order.id}</span>
+                <span class="past-order-status ${statusInfo.class}">${statusInfo.text}</span>
+            </div>
+            <div class="past-order-items">${itemsSummary}</div>
+            <div class="past-order-footer">
+                <span class="past-order-date">${orderTime}</span>
+                <span class="past-order-total">${formatPrice(order.total)}</span>
+            </div>
+        </div>
+    `;
 }
 
 // ==================== PROFILE PAGE ====================
@@ -1860,13 +2131,28 @@ function displayStaffOrders(filter = 'all') {
             `;
         }
 
-        // Items list
-        const itemsHtml = order.items.map(item => `
-            <div class="order-item-row">
-                <span class="item-name">${item.name}</span>
-                <span class="item-qty">x${item.quantity}</span>
-            </div>
-        `).join('');
+        // Items list with details
+        const itemsHtml = order.items.map(item => {
+            const customizations = [];
+            if (item.size) customizations.push(`Size ${item.size}`);
+            if (item.sugar) customizations.push(`${item.sugar} đường`);
+            if (item.ice) customizations.push(item.ice);
+
+            const toppingsText = item.toppings && item.toppings.length > 0
+                ? `<div class="item-topping-detail">+ ${item.toppings.join(', ')}</div>`
+                : '';
+
+            return `
+                <div class="order-item-row-detail">
+                    <div class="item-main">
+                        <span class="item-name">${item.name}</span>
+                        <span class="item-qty">x${item.quantity}</span>
+                    </div>
+                    <div class="item-custom-detail">${customizations.join(' • ')}</div>
+                    ${toppingsText}
+                </div>
+            `;
+        }).join('');
 
         // Format time
         const orderTime = new Date(order.createdAt);
