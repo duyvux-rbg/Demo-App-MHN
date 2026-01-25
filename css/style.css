@@ -910,12 +910,255 @@ section {
 
 /* ==================== REWARDS PAGE ==================== */
 .membership-card {
-    background: linear-gradient(135deg, var(--primary-orange) 0%, var(--dark-brown) 100%);
     color: var(--white);
     padding: var(--spacing-xl);
     border-radius: var(--border-radius-lg);
     margin-bottom: var(--spacing-xl);
     box-shadow: var(--box-shadow-lg);
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--primary-orange) 0%, var(--dark-brown) 100%);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.membership-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Base decorative pattern */
+.membership-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+.membership-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* ===== NEW MEMBER TIER ===== */
+.membership-card.tier-new {
+    background: linear-gradient(135deg, #6b7280 0%, #4b5563 50%, #374151 100%);
+}
+
+.membership-card.tier-new::before {
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(255, 255, 255, 0.03) 10px,
+        rgba(255, 255, 255, 0.03) 20px
+    );
+}
+
+/* ===== BRONZE TIER ===== */
+.membership-card.tier-bronze {
+    background: linear-gradient(135deg, #b87333 0%, #cd7f32 25%, #8b5a2b 50%, #cd7f32 75%, #b87333 100%);
+    box-shadow: 0 10px 30px rgba(205, 127, 50, 0.4);
+}
+
+.membership-card.tier-bronze::before {
+    background:
+        radial-gradient(circle at 20% 80%, rgba(255, 200, 150, 0.15) 0%, transparent 30%),
+        radial-gradient(circle at 80% 20%, rgba(255, 200, 150, 0.15) 0%, transparent 30%),
+        repeating-linear-gradient(
+            60deg,
+            transparent,
+            transparent 20px,
+            rgba(139, 90, 43, 0.2) 20px,
+            rgba(139, 90, 43, 0.2) 22px
+        );
+    opacity: 1;
+}
+
+.membership-card.tier-bronze::after {
+    background: radial-gradient(ellipse at top right, rgba(255, 220, 180, 0.3) 0%, transparent 50%);
+}
+
+/* ===== SILVER TIER ===== */
+.membership-card.tier-silver {
+    background: linear-gradient(135deg, #a8a9ad 0%, #d3d3d3 25%, #c0c0c0 50%, #e8e8e8 75%, #a8a9ad 100%);
+    color: #333;
+    box-shadow: 0 10px 30px rgba(192, 192, 192, 0.5);
+}
+
+.membership-card.tier-silver::before {
+    background:
+        linear-gradient(90deg, transparent 50%, rgba(255, 255, 255, 0.1) 50%),
+        linear-gradient(0deg, transparent 50%, rgba(255, 255, 255, 0.1) 50%);
+    background-size: 30px 30px;
+    opacity: 1;
+}
+
+.membership-card.tier-silver::after {
+    background:
+        linear-gradient(135deg, transparent 40%, rgba(255, 255, 255, 0.6) 45%, rgba(255, 255, 255, 0.6) 55%, transparent 60%);
+    animation: silverShine 3s infinite linear;
+}
+
+@keyframes silverShine {
+    0% { transform: translateX(-100%) translateY(-100%); }
+    100% { transform: translateX(100%) translateY(100%); }
+}
+
+.membership-card.tier-silver .card-brand,
+.membership-card.tier-silver .card-tier,
+.membership-card.tier-silver .card-name,
+.membership-card.tier-silver .points-value,
+.membership-card.tier-silver .points-label,
+.membership-card.tier-silver .points-link,
+.membership-card.tier-silver .qr-text {
+    color: #333;
+}
+
+.membership-card.tier-silver .points-link {
+    color: #555;
+}
+
+/* ===== GOLD TIER ===== */
+.membership-card.tier-gold {
+    background: linear-gradient(135deg, #b8860b 0%, #ffd700 20%, #daa520 40%, #ffd700 60%, #b8860b 80%, #ffd700 100%);
+    box-shadow: 0 10px 40px rgba(255, 215, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.membership-card.tier-gold::before {
+    background:
+        radial-gradient(circle at 10% 90%, rgba(255, 255, 200, 0.2) 0%, transparent 25%),
+        radial-gradient(circle at 90% 10%, rgba(255, 255, 200, 0.2) 0%, transparent 25%),
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 200, 0.1) 0%, transparent 40%),
+        repeating-conic-gradient(
+            from 0deg at 50% 50%,
+            transparent 0deg,
+            rgba(255, 223, 0, 0.1) 10deg,
+            transparent 20deg
+        );
+    opacity: 1;
+}
+
+.membership-card.tier-gold::after {
+    width: 200%;
+    height: 200%;
+    background:
+        linear-gradient(135deg, transparent 30%, rgba(255, 255, 255, 0.4) 35%, rgba(255, 255, 255, 0.4) 40%, transparent 45%);
+    animation: goldGlow 4s infinite ease-in-out;
+}
+
+@keyframes goldGlow {
+    0%, 100% { transform: translateX(-100%) translateY(-100%) rotate(0deg); opacity: 0.5; }
+    50% { transform: translateX(50%) translateY(50%) rotate(5deg); opacity: 1; }
+}
+
+.membership-card.tier-gold .card-brand,
+.membership-card.tier-gold .card-name {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== DIAMOND TIER ===== */
+.membership-card.tier-diamond {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #1a1a2e 75%, #16213e 100%);
+    box-shadow:
+        0 10px 40px rgba(185, 242, 255, 0.3),
+        0 0 60px rgba(185, 242, 255, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.membership-card.tier-diamond::before {
+    background:
+        radial-gradient(circle at 20% 20%, rgba(185, 242, 255, 0.3) 0%, transparent 20%),
+        radial-gradient(circle at 80% 80%, rgba(185, 242, 255, 0.3) 0%, transparent 20%),
+        radial-gradient(circle at 60% 30%, rgba(255, 255, 255, 0.2) 0%, transparent 15%),
+        radial-gradient(circle at 30% 70%, rgba(185, 242, 255, 0.2) 0%, transparent 15%),
+        radial-gradient(circle at 85% 40%, rgba(255, 255, 255, 0.15) 0%, transparent 10%),
+        radial-gradient(circle at 15% 50%, rgba(185, 242, 255, 0.15) 0%, transparent 10%);
+    opacity: 1;
+    animation: diamondSparkle 2s infinite ease-in-out;
+}
+
+@keyframes diamondSparkle {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+}
+
+.membership-card.tier-diamond::after {
+    width: 300%;
+    height: 300%;
+    background:
+        conic-gradient(
+            from 0deg at 50% 50%,
+            transparent 0deg,
+            rgba(185, 242, 255, 0.15) 30deg,
+            transparent 60deg,
+            rgba(255, 255, 255, 0.15) 90deg,
+            transparent 120deg,
+            rgba(185, 242, 255, 0.15) 150deg,
+            transparent 180deg,
+            rgba(255, 255, 255, 0.15) 210deg,
+            transparent 240deg,
+            rgba(185, 242, 255, 0.15) 270deg,
+            transparent 300deg,
+            rgba(255, 255, 255, 0.15) 330deg,
+            transparent 360deg
+        );
+    animation: diamondRotate 20s infinite linear;
+}
+
+@keyframes diamondRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.membership-card.tier-diamond .card-tier {
+    background: linear-gradient(90deg, rgba(185, 242, 255, 0.3), rgba(255, 255, 255, 0.3), rgba(185, 242, 255, 0.3));
+    border: 1px solid rgba(185, 242, 255, 0.5);
+}
+
+.membership-card.tier-diamond .card-brand,
+.membership-card.tier-diamond .card-name,
+.membership-card.tier-diamond .points-value {
+    text-shadow: 0 0 10px rgba(185, 242, 255, 0.5);
+}
+
+/* Diamond sparkle dots */
+.membership-card.tier-diamond .sparkle-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.membership-card.tier-diamond .sparkle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 1.5s infinite ease-in-out;
+}
+
+.membership-card.tier-diamond .sparkle:nth-child(1) { top: 10%; left: 15%; animation-delay: 0s; }
+.membership-card.tier-diamond .sparkle:nth-child(2) { top: 25%; left: 85%; animation-delay: 0.3s; }
+.membership-card.tier-diamond .sparkle:nth-child(3) { top: 70%; left: 10%; animation-delay: 0.6s; }
+.membership-card.tier-diamond .sparkle:nth-child(4) { top: 80%; left: 75%; animation-delay: 0.9s; }
+.membership-card.tier-diamond .sparkle:nth-child(5) { top: 40%; left: 50%; animation-delay: 1.2s; }
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0; transform: scale(0); }
+    50% { opacity: 1; transform: scale(1); }
 }
 
 .card-header {
@@ -923,11 +1166,14 @@ section {
     justify-content: space-between;
     align-items: center;
     margin-bottom: var(--spacing-lg);
+    position: relative;
+    z-index: 1;
 }
 
 .card-brand {
     font-size: var(--font-size-h4);
     font-weight: 700;
+    letter-spacing: 1px;
 }
 
 .card-tier {
@@ -935,12 +1181,18 @@ section {
     border-radius: 20px;
     background-color: rgba(255, 255, 255, 0.2);
     font-weight: 600;
+    font-size: var(--font-size-small);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .card-name {
     font-size: var(--font-size-h2);
     font-weight: 700;
     margin-bottom: var(--spacing-lg);
+    position: relative;
+    z-index: 1;
+    letter-spacing: 2px;
 }
 
 .card-points {
@@ -948,6 +1200,8 @@ section {
     justify-content: space-between;
     align-items: center;
     margin-bottom: var(--spacing-lg);
+    position: relative;
+    z-index: 1;
 }
 
 .points-label {
@@ -969,6 +1223,8 @@ section {
 
 .qr-section {
     text-align: center;
+    position: relative;
+    z-index: 1;
 }
 
 .qr-code {
@@ -980,6 +1236,7 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .qr-placeholder {
@@ -998,6 +1255,7 @@ section {
     justify-content: center;
     gap: var(--spacing-md);
     margin-bottom: var(--spacing-xl);
+    flex-wrap: wrap;
 }
 
 .tier-badge {
@@ -1008,12 +1266,65 @@ section {
     color: var(--gray-text);
     font-weight: 600;
     transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.tier-badge:hover {
+    transform: scale(1.05);
 }
 
 .tier-badge.active {
     border-color: var(--primary-orange);
     background-color: var(--primary-orange);
     color: var(--white);
+}
+
+/* Individual tier badge styles */
+.tier-badge.tier-new {
+    border-color: #6b7280;
+}
+.tier-badge.tier-new.active {
+    background: linear-gradient(135deg, #6b7280, #4b5563);
+    border-color: #4b5563;
+}
+
+.tier-badge.tier-bronze {
+    border-color: #CD7F32;
+}
+.tier-badge.tier-bronze.active {
+    background: linear-gradient(135deg, #b87333, #cd7f32);
+    border-color: #b87333;
+    box-shadow: 0 2px 10px rgba(205, 127, 50, 0.4);
+}
+
+.tier-badge.tier-silver {
+    border-color: #C0C0C0;
+}
+.tier-badge.tier-silver.active {
+    background: linear-gradient(135deg, #a8a9ad, #e8e8e8);
+    border-color: #a8a9ad;
+    color: #333;
+    box-shadow: 0 2px 10px rgba(192, 192, 192, 0.5);
+}
+
+.tier-badge.tier-gold {
+    border-color: #FFD700;
+}
+.tier-badge.tier-gold.active {
+    background: linear-gradient(135deg, #b8860b, #ffd700);
+    border-color: #b8860b;
+    box-shadow: 0 2px 15px rgba(255, 215, 0, 0.5);
+}
+
+.tier-badge.tier-diamond {
+    border-color: #B9F2FF;
+}
+.tier-badge.tier-diamond.active {
+    background: linear-gradient(135deg, #1a1a2e, #0f3460);
+    border-color: #B9F2FF;
+    box-shadow: 0 2px 15px rgba(185, 242, 255, 0.4);
 }
 
 .voucher-list {

@@ -781,19 +781,39 @@ function getDirection(lat, lng) {
 // ==================== REWARDS PAGE ====================
 function loadRewardsPage() {
     // Load membership card
-    if (currentUser) {
+    const membershipCard = document.getElementById('membershipCard');
+    if (currentUser && membershipCard) {
         const tier = membershipTiers.find(t => t.id === currentUser.tier);
         document.getElementById('cardTier').textContent = `Hạng ${tier.name}`;
         document.getElementById('cardName').textContent = currentUser.name.toUpperCase();
         document.getElementById('pointsValue').textContent = currentUser.points;
+
+        // Apply tier-specific class for styling
+        membershipCard.className = 'membership-card tier-' + currentUser.tier;
+
+        // Add sparkle elements for diamond tier
+        if (currentUser.tier === 'diamond') {
+            const existingSparkles = membershipCard.querySelector('.sparkle-container');
+            if (!existingSparkles) {
+                const sparkleContainer = document.createElement('div');
+                sparkleContainer.className = 'sparkle-container';
+                sparkleContainer.innerHTML = `
+                    <div class="sparkle"></div>
+                    <div class="sparkle"></div>
+                    <div class="sparkle"></div>
+                    <div class="sparkle"></div>
+                    <div class="sparkle"></div>
+                `;
+                membershipCard.appendChild(sparkleContainer);
+            }
+        }
     }
 
     // Load tier badges
     const tierBadges = document.getElementById('tierBadges');
     if (tierBadges) {
         tierBadges.innerHTML = membershipTiers.map(tier => `
-            <div class="tier-badge ${currentUser && currentUser.tier === tier.id ? 'active' : ''}"
-                 style="border-color: ${tier.color}; ${currentUser && currentUser.tier === tier.id ? `background-color: ${tier.color}; color: white;` : ''}">
+            <div class="tier-badge tier-${tier.id} ${currentUser && currentUser.tier === tier.id ? 'active' : ''}">
                 ${tier.name}
             </div>
         `).join('');
